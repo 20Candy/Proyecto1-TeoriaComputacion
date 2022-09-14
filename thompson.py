@@ -68,8 +68,11 @@ class Thompson:
             return
 
         if i.isalpha():
+            if len(postfix) > 1:
+                postfix.pop()
+                self.Thompson(postfix)
+
             temp = self.estadosCopy.pop(0)
-            self.aceptacion.append(temp)
 
             tempTransicion.append(temp)
             tempTransicion.append(i)
@@ -92,23 +95,31 @@ class Thompson:
             elif(postfix[-2].isalpha() and (postfix[-3].isalpha() == False)):
                 postfix.pop()
                 one = postfix.pop()
-                two = []
-                three = []
-
-                flag = False
-                for i in reversed(postfix):
-                    if(flag):
-                        three.append(postfix[i])
-                    else:
-                        three.append(postfix[i])
+                two = copy.deepcopy(postfix)
 
                 self.Thompson(two)
                 self.Thompson(one)
             
             elif((postfix[-2].isalpha() == False)):
                 postfix.pop()
+                
                 if("." in postfix):
-                    self.Thompson(postfix)
+                    one = []
+                    two = []
+
+                    flag = False
+                    for j in reversed(postfix):
+                        if(j == "." or flag):
+                            flag = True
+                            two.append([j])
+                        else:
+                            one.append([j])
+                    
+                    one2 = one.reverse()
+                    two2 = two.reverse()
+
+                    self.Thompson(two2)
+                    self.Thompson(one2)
 
                 else:
                     one = postfix.pop()
@@ -116,7 +127,6 @@ class Thompson:
 
                     self.Thompson(two)
                     self.Thompson(one)
-
 
         elif i == '*':
             postfix.pop()
