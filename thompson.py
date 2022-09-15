@@ -1,5 +1,4 @@
 import copy
-from turtle import pos
 
 class Thompson:
     def __init__(self, infix):
@@ -18,7 +17,7 @@ class Thompson:
 
         self.estadosCopy = copy.deepcopy(self.estados)
 
-        self.postfix = "ab*.ab*.."
+        self.postfix = "bb|*a.b.b.ab|*."
         self.postfix = [x for x in self.postfix]
         self.postfix2 = copy.deepcopy(self.postfix)
 
@@ -38,22 +37,16 @@ class Thompson:
     def getEstados(self):
         list = [x for x in self.infix]
         contadorEstados = 0
-        last = ''
 
         for i in list:
             if i.isalpha():
                 contadorEstados += 2
-
-                if last.isalpha():
-                    contadorEstados -= 1
 
             elif i == '*':
                 contadorEstados += 2
             
             elif i == '|':
                 contadorEstados += 2
-            
-            last = i
 
         for i in range(contadorEstados):
             self.estados.append(str(i))
@@ -173,21 +166,21 @@ class Thompson:
                 
                 temp = self.estadosCopy.pop(0)
                 tempTransicion.append(temp)
-                tempTransicion.append("ϵ")
+                tempTransicion.append("E")
                 inicio = self.estadosCopy[0]
                 tempTransicion.append(inicio)
-                self.transiciones.append(tempTransicion) #[['2', 'ϵ', '3'],]
+                self.transiciones.append(tempTransicion) #[['2', 'E', '3'],]
                 tempTransicion = []
 
                 tempTransicion.append(self.estadosCopy[1]) 
-                tempTransicion.append("ϵ")
+                tempTransicion.append("E")
                 self.Thompson(one) #THOMPSON ['3', 'c', '4']
                 tempTransicion.append(inicio)
-                self.transiciones.append(tempTransicion) #['4', 'ϵ', '3']
+                self.transiciones.append(tempTransicion) #['4', 'E', '3']
                 tempTransicion = []
 
                 tempTransicion2.append(temp)
-                tempTransicion2.append("ϵ")
+                tempTransicion2.append("E")
                 tempTransicion2.append(self.estadosCopy[1])
                 self.transiciones.append(tempTransicion2)
                 tempTransicion2 = []
@@ -195,9 +188,9 @@ class Thompson:
 
                 temp = self.estadosCopy.pop(0)
                 tempTransicion2.append(temp)
-                tempTransicion2.append("ϵ")
+                tempTransicion2.append("E")
                 tempTransicion2.append(self.estadosCopy[0])
-                self.transiciones.append(tempTransicion2)   #['4', 'ϵ', '5']
+                self.transiciones.append(tempTransicion2)   #['4', 'E', '5']
                 tempTransicion2 = []
 
             else:
@@ -222,22 +215,22 @@ class Thompson:
                     
                     temp = self.estadosCopy.pop(0)
                     tempTransicion.append(temp)
-                    tempTransicion.append("ϵ")
+                    tempTransicion.append("E")
                     inicio = self.estadosCopy[0]
                     tempTransicion.append(inicio)
-                    self.transiciones.append(tempTransicion) #[['2', 'ϵ', '3'],]
+                    self.transiciones.append(tempTransicion) #[['2', 'E', '3'],]
                     tempTransicion = []
 
                     
                     self.Thompson(one) #THOMPSON ['3', 'c', '4']
                     tempTransicion.append(self.estadosCopy[0]) 
-                    tempTransicion.append("ϵ")
+                    tempTransicion.append("E")
                     tempTransicion.append(inicio)
-                    self.transiciones.append(tempTransicion) #['4', 'ϵ', '3']
+                    self.transiciones.append(tempTransicion) #['4', 'E', '3']
                     tempTransicion = []
 
                     tempTransicion2.append(temp)
-                    tempTransicion2.append("ϵ")
+                    tempTransicion2.append("E")
                     tempTransicion2.append(self.estadosCopy[1])
                     self.transiciones.append(tempTransicion2)
                     tempTransicion2 = []
@@ -245,12 +238,13 @@ class Thompson:
 
                     temp = self.estadosCopy.pop(0)
                     tempTransicion2.append(temp)
-                    tempTransicion2.append("ϵ")
+                    tempTransicion2.append("E")
                     tempTransicion2.append(self.estadosCopy[0])
-                    self.transiciones.append(tempTransicion2)   #['4', 'ϵ', '5']
+                    self.transiciones.append(tempTransicion2)   #['4', 'E', '5']
                     tempTransicion2 = []
 
                 else:
+                    postfix.pop()
                     one = [postfix.pop()]
                     two = []
 
@@ -266,15 +260,83 @@ class Thompson:
                     one.reverse()
 
                     self.Thompson(two)
-                    self.Thompson(one)
 
-  
-        
+                    temp = self.estadosCopy.pop(0)
+                    tempTransicion.append(temp)
+                    tempTransicion.append("E")
+                    inicio = self.estadosCopy[0]
+                    tempTransicion.append(inicio)
+                    self.transiciones.append(tempTransicion) #[['2', 'E', '3'],]
+                    tempTransicion = []
+
+                    
+                    self.Thompson(one) #THOMPSON ['3', 'c', '4']
+                    tempTransicion.append(self.estadosCopy[0]) 
+                    tempTransicion.append("E")
+                    tempTransicion.append(inicio)
+                    self.transiciones.append(tempTransicion) #['4', 'E', '3']
+                    tempTransicion = []
+
+                    tempTransicion2.append(temp)
+                    tempTransicion2.append("E")
+                    tempTransicion2.append(self.estadosCopy[1])
+                    self.transiciones.append(tempTransicion2)
+                    tempTransicion2 = []
+
+
+                    temp = self.estadosCopy.pop(0)
+                    tempTransicion2.append(temp)
+                    tempTransicion2.append("E")
+                    tempTransicion2.append(self.estadosCopy[0])
+                    self.transiciones.append(tempTransicion2)   #['4', 'E', '5']
+                    tempTransicion2 = []
+      
         elif i == '|':
-            pass
+            if(postfix[-2].isalpha() and postfix[-3].isalpha()):
+                postfix.pop()
+                one = postfix.pop()
+                two = postfix.pop()
+                three = copy.deepcopy(postfix)
+
+                self.Thompson(three)
+
+                inicial = self.estadosCopy.pop(0)
+                tempTransicion.append(inicial)
+                tempTransicion.append("E")
+                route1 = self.estadosCopy[0]
+                tempTransicion.append(route1)
+                self.transiciones.append(tempTransicion) #[['0', 'E', '1'],]
+                tempTransicion = []
+
+                self.Thompson(two) #THOMPSON #[['1', 'A', '2'],]
+                finalOne = self.estadosCopy.pop(0)
+
+                tempTransicion.append(inicial)
+                tempTransicion.append("E")
+                route1 = self.estadosCopy[0]
+                tempTransicion.append(route1)
+                self.transiciones.append(tempTransicion) #[['', 'E', '3'],]
+                tempTransicion = []
+
+                self.Thompson(one) #THOMPSON #[['3', 'A', '4'],]
+                finalTwo = self.estadosCopy.pop(0)
+
+                tempTransicion.append(finalOne)
+                tempTransicion.append("E")
+                route1 = self.estadosCopy[0]
+                tempTransicion.append(route1)
+                self.transiciones.append(tempTransicion)
+                tempTransicion = []
+
+                tempTransicion.append(finalTwo)
+                tempTransicion.append("E")
+                route1 = self.estadosCopy[0]
+                tempTransicion.append(route1)
+                self.transiciones.append(tempTransicion)
+                tempTransicion = []
 
 
-t = Thompson('ab*.ab*..')
+t = Thompson('bb|*a.b.b.ab|*.')
 print("\nEXPRESION REGULAR:", t.postfix)
 print("\nESTADOS: ["+', '.join(t.states)+"]")
 print("SIMBOLOS: ["+', '.join(t.simbolos)+"]")
