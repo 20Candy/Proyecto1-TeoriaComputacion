@@ -502,4 +502,4 @@ class Thompson:
         print("\n")
 
 #instrucciones:(b|b)*abb(a|b)* 
-t = Thompson('(b**|b)*ab*b(a|b)*')
+#t = Thompson('(b**|b)*ab*b(a|b)*')
