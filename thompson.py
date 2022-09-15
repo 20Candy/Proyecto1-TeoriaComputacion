@@ -15,7 +15,7 @@ class Thompson:
         self.transiciones = []
 
         #instrucciones: bb|*a.b.b.ab|*.
-        self.postfix = "Ea|b*.*"
+        self.postfix = "b**b|*a.b.b.ab|*."
         self.postfix = [x for x in self.postfix]
         self.postfix2 = copy.deepcopy(self.postfix)
 
@@ -206,14 +206,29 @@ class Thompson:
 
                 flag = False
                 for j in reversed(postfix):
-                    if(j == "." or j == "|" or j == "*" or flag):
-                        if(len(one) > 1 and ((len(one)-1)%2 == 0 or flag)):
-                            flag = True
-                            two.append(postfix.pop())
+                    if(len(one) > 1 and (j == "." or j == "|" or j == "*" or flag)):
+                        if((len(one)-1)%2 == 0 or flag):
+
+                            if (len(one) == 3):
+                                if (one[1].isalpha() and (one[2].isalpha() == False)):
+                                    one.append(postfix.pop())
+                            else:
+                                flag = True
+                                two.append(postfix.pop())
                         else:
                             one.append(postfix.pop())
                     else:
                         one.append(postfix.pop())
+
+                    if(one[0] == "." or one[0] == "|"):
+                        if (len(one) == 3):
+                            if (one[1].isalpha() and one[2].isalpha()):
+                                flag = True
+                    
+                    if(one[0] == "*"):
+                        if (len(one) == 2):
+                            if (one[1].isalpha()):
+                                flag = True
 
                 two.reverse()
                 one.reverse()
@@ -250,9 +265,7 @@ class Thompson:
                 tempTransicion2.append(self.estadosCopy[0])
                 self.transiciones.append(tempTransicion2)   #['4', 'E', '5']
                 tempTransicion2 = []
-
- 
-      
+   
         elif i == '|':
             if(postfix[-2].isalpha() and postfix[-3].isalpha()):
                 postfix.pop()
@@ -297,6 +310,73 @@ class Thompson:
                 self.transiciones.append(tempTransicion)
                 tempTransicion = []
             
+            elif(postfix[-2].isalpha()):
+                postfix.pop()
+                zero = [postfix.pop()]
+                one = []
+                two = []
+
+                flag = False
+                for j in reversed(postfix):
+                    if(len(one) > 1 and (j == "." or j == "|" or j == "*" or flag)):
+                        if((len(one)-1)%2 == 0 or flag):
+                            flag = True
+                            two.append(postfix.pop())
+                        else:
+                            one.append(postfix.pop())
+                    else:
+                        one.append(postfix.pop())
+
+                    if(one[0] == "." or one[0] == "|"):
+                        if (len(one) == 3):
+                            if (one[1].isalpha() and one[2].isalpha()):
+                                flag = True
+                    
+                    if(one[0] == "*"):
+                        if (len(one) == 2):
+                            if (one[1].isalpha()):
+                                flag = True
+
+                two.reverse()
+                one.reverse()
+
+                self.Thompson(two)
+
+                inicial = self.estadosCopy.pop(0)
+                tempTransicion.append(inicial)
+                tempTransicion.append("E")
+                route1 = self.estadosCopy[0]
+                tempTransicion.append(route1)
+                self.transiciones.append(tempTransicion) #[['0', 'E', '1'],]
+                tempTransicion = []
+
+                self.Thompson(one) #THOMPSON #[['1', 'A', '2'],]
+                finalOne = self.estadosCopy.pop(0)
+
+                tempTransicion.append(inicial)
+                tempTransicion.append("E")
+                route1 = self.estadosCopy[0]
+                tempTransicion.append(route1)
+                self.transiciones.append(tempTransicion) #[['', 'E', '3'],]
+                tempTransicion = []
+
+                self.Thompson(zero) #THOMPSON #[['3', 'A', '4'],]
+                finalTwo = self.estadosCopy.pop(0)
+
+                tempTransicion.append(finalOne)
+                tempTransicion.append("E")
+                route1 = self.estadosCopy[0]
+                tempTransicion.append(route1)
+                self.transiciones.append(tempTransicion)
+                tempTransicion = []
+
+                tempTransicion.append(finalTwo)
+                tempTransicion.append("E")
+                route1 = self.estadosCopy[0]
+                tempTransicion.append(route1)
+                self.transiciones.append(tempTransicion)
+                tempTransicion = []
+
             else:
                 postfix.pop()
                 one = [postfix.pop()]
@@ -364,7 +444,6 @@ class Thompson:
                 self.transiciones.append(tempTransicion)
                 tempTransicion = []
 
-
     def Graph(self):
         q0 = self.inicio[0]
         F = set(self.aceptacion)
@@ -393,7 +472,7 @@ class Thompson:
         dot_subconjuntos.render(directory='output', filename='Thompson')
         
 #instrucciones:(b|b)*abb(a|b)* 
-t = Thompson('((ϵ|a)b*)*')
+t = Thompson('(b**|b)*abb(a|b)*')
 print("\nEXPRESION REGULAR:", t.postfix)
 print("\nESTADOS: ["+', '.join(t.states)+"]")
 print("SIMBOLOS: ["+', '.join(t.simbolos)+"]")
