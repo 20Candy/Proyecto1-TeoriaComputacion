@@ -1,71 +1,6 @@
 import graphviz
 import ast
-
-def cerraduraEpsilon(estado, transiciones, estados = []):
-    if estado not in estados:
-        estados.append(estado)
-    # /si hay transiciones con E, se recorre y para cada una vuelve a hacer la cerradura
-    if (len(transiciones[estado]["E"]) > 0):
-        for i in transiciones[estado]["E"]:
-            if i not in estados:
-                estados.append(i)
-            cerraduraEpsilon(i, transiciones, estados)
-    return estados
-
-
-def cerraduraEpsilon_s(estados, transiciones):
-    estados_finales = []
-    # se recorre cada estado
-    for i in estados:
-        estado_ = []
-        estado_ = cerraduraEpsilon(i, transiciones, [])
-        estados_finales.append(estado_)
-
-
-    estados_finales_ = []
-    for j in estados_finales:
-        for k in j:
-            estados_finales_.append(k)
-
-    # Se eliminan duplicados
-    estados_finales_ = list(set(estados_finales_))
-    estados_finales_.sort()
-
-    return estados_finales_
-
-# Hasta donde se puede llegar con un caracter segun un conjunto de estados
-def mover(estados, caracter, transiciones):
-    estados_movidos = []
-    for i in estados:
-        for llave, valor in transiciones.items():
-            if llave == i:
-                # si hay transicion para la letra, entonces agrega ese estado
-                if len(valor[caracter]) > 0:
-                    for st in valor[caracter]:
-                        if st not in estados_movidos:
-                            estados_movidos.append(st)
-    return estados_movidos
-
-def simulacion_sub(transiciones, w, final):
-    current_state = "0"
-    for i in w:
-        llave = ""
-        for key, v in transiciones.items():
-            if v["Estado del AFD"] == current_state and v[i] != None:
-                llave = key
-            elif v["Estado del AFD"] == current_state and v[i] == None:
-                return False
-        current_state = transiciones[llave][i]
-    for llave, valor in transiciones.items():
-        if valor["Estado del AFD"] == current_state:
-            estado = ast.literal_eval(llave)
-            if final in estado:
-                return True
-            else:
-                return False
-
-
-# ------------------------------ Subconjuntos ------------------------------
+from utils import *
 
 def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
 
@@ -176,8 +111,4 @@ def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
         for key, value in estructura.items(): 
             f.write('%s:%s\n' % (key, value))
 
-
-    #verificacion si la cadena es parte del afd
-    print("cadena a verificar: ", w)
-    simulacionSub = simulacion_sub(sub_afd_transiciones, w, str("S"+str(acpEstados-1)))
-    print("AFD (subconjuntos): La cadena pertenece") if simulacionSub else print("AFD (subconjuntos): La cadena no pertenece")
+    return sub_afd_transiciones
