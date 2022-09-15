@@ -8,6 +8,7 @@ class Thompson:
 
         self.simbolos = []
         self.estados = []
+        self.states = []
         self.inicio = ["0"]
         self.aceptacion = []
         self.transiciones = []
@@ -20,8 +21,11 @@ class Thompson:
         self.postfix = "a*c*."
         self.postfix = [x for x in self.postfix]
         self.postfix2 = copy.deepcopy(self.postfix)
+
         self.Thompson(self.postfix2)
-    
+        self.simplifyEstados()
+
+
     ##################### FUNCIONES #######################
 
     def getSimbolos(self):
@@ -53,6 +57,26 @@ class Thompson:
 
         for i in range(contadorEstados):
             self.estados.append(str(i))
+
+    def simplifyEstados(self):
+        for i in self.transiciones:
+            for j in i:
+                if(j in self.estados):
+                    if(j in self.states):
+                        pass
+                    else:
+                        self.states.append(j)
+
+        entrada = []
+        salida = []
+
+        for i in self.transiciones:
+            entrada.append(i[0])
+            salida.append(i[2])
+        
+        s = set(entrada)
+        self.aceptacion = [x for x in salida if x not in s]
+        self.aceptacion = list(set(self.aceptacion))
 
     def Thompson(self, postfix):
         #ab.c|
@@ -176,7 +200,8 @@ class Thompson:
                 self.transiciones.append(tempTransicion2)   #['4', 'ϵ', '5']
                 tempTransicion2 = []
 
-
+            else:
+                pass
 
   
         
@@ -186,8 +211,9 @@ class Thompson:
 
 t = Thompson('a*c*.')
 print("\nEXPRESION REGULAR:", t.postfix)
-print("\nSIMBOLOS: [",', '.join(t.simbolos),"]")
-print("ESTADOS: [",', '.join(t.estados),"]")
-print("INICIO: [",', '.join(t.inicio),"]")
+print("\nESTADOS: ["+', '.join(t.states)+"]")
+print("SIMBOLOS: ["+', '.join(t.simbolos)+"]")
+print("INICIO: ["+', '.join(t.inicio)+"]")
+print("ACEPTACION: ["+', '.join(t.aceptacion)+"]")
 print("TRANSICIONES:", t.transiciones)
 print("\n")
