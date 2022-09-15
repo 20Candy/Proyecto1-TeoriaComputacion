@@ -7,7 +7,7 @@ class Thompson:
         self.infix = infix
 
         #instrucciones: bb|*a.b.b.ab|*.
-        self.postfix = "b**b|*a.b*.b.ab|*."
+        self.postfix = "bb|*a.b.b."
         self.postfix = [x for x in self.postfix]
         self.postfix2 = copy.deepcopy(self.postfix)
 
@@ -384,7 +384,7 @@ class Thompson:
                 flag = False
                 for j in reversed(postfix):
                     if(len(one) > 1 and (j == "." or j == "|" or j == "*" or flag)):
-                        if((len(one)-1)%2 == 0 or flag):
+                        if((len(one))%2 == 0 or flag):
                             flag = True
                             two.append(postfix.pop())
                         else:
@@ -501,4 +501,5 @@ class Thompson:
         print("\n")
 
 #instrucciones:(b|b)*abb(a|b)* 
-#t = Thompson('(b**|b)*ab*b(a|b)*')
+t = Thompson('a(a|b)(a|b)(a|b)(a|b)')
+
