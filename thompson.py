@@ -14,15 +14,14 @@ class Thompson:
         self.aceptacion = []
         self.transiciones = []
 
-        self.getSimbolos()
-        self.getEstados()
-
-        self.estadosCopy = copy.deepcopy(self.estados)
-
         #instrucciones: bb|*a.b.b.ab|*.
         self.postfix = "ab|*a.b.b.ab|*."
         self.postfix = [x for x in self.postfix]
         self.postfix2 = copy.deepcopy(self.postfix)
+
+        self.getSimbolos()
+        self.getEstados()
+        self.estadosCopy = copy.deepcopy(self.estados)
 
         self.Thompson(self.postfix2)
         self.simplifyEstados()
@@ -42,7 +41,7 @@ class Thompson:
         self.simbolos.append("E")
 
     def getEstados(self):
-        list = [x for x in self.infix]
+        list = [x for x in self.postfix]
         contadorEstados = 0
 
         for i in list:
@@ -347,7 +346,7 @@ class Thompson:
 
         dot_subconjuntos = graphviz.Digraph(comment="Thompson")
         dot_subconjuntos.attr(rankdir='LR', size='15')
-        tempStr = str("\AFN: Thompson // "+self.infix)
+        tempStr = str("\AFN: Thompson ["+self.infix+"]")
         dot_subconjuntos.attr(label=tempStr)
         dot_subconjuntos.attr(fontsize='20')
         dot_subconjuntos.attr('node', shape='circle')
@@ -369,7 +368,7 @@ class Thompson:
         dot_subconjuntos.render(directory='output', filename='Thompson')
         
 #instrucciones:(b|b)*abb(a|b)*
-t = Thompson('ab|*a.b.b.ab|*.')
+t = Thompson('(a|b)*abb(a|b)*')
 print("\nEXPRESION REGULAR:", t.postfix)
 print("\nESTADOS: ["+', '.join(t.states)+"]")
 print("SIMBOLOS: ["+', '.join(t.simbolos)+"]")
