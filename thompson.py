@@ -15,7 +15,7 @@ class Thompson:
         self.transiciones = []
 
         #instrucciones: bb|*a.b.b.ab|*.
-        self.postfix = "b**b|*a.b.b.ab|*."
+        self.postfix = "b**b|*a.b*.b.ab|*."
         self.postfix = [x for x in self.postfix]
         self.postfix2 = copy.deepcopy(self.postfix)
 
@@ -403,6 +403,10 @@ class Thompson:
                             if (one[1].isalpha()):
                                 flag = True
 
+                        if (len(one) == 3):
+                            if (one[1] == "*" and one[2].isalpha()):
+                                flag = True
+
                 two.reverse()
                 one.reverse()
 
@@ -470,13 +474,32 @@ class Thompson:
             dot_subconjuntos.edge(i[0], i[2], i[1])
         
         dot_subconjuntos.render(directory='output', filename='Thompson')
+
+        expresion = "\nEXPRESION REGULAR: "+self.infix
+        estados = "\nESTADOS: ["+', '.join(self.states)+"]"
+        simbolos = "\nSIMBOLOS: ["+', '.join(self.simbolos)+"]"
+        inicio = "\nINICIO: ["+', '.join(self.inicio)+"]"
+        aceptacion = "\nACEPTACION: ["+', '.join(self.aceptacion)+"]"
+
+        #make self.transiciones more readable
+        temp = ""
+        for i in self.transiciones:
+            if(i == self.transiciones[-1]):
+                temp = temp + '('+', '.join(i)+')'
+            else:
+                temp = temp + '('+', '.join(i)+') - '
         
+        transiciones = "\nTRANSICIONES: "+temp
+        
+        #open text file
+        text_file = open("output/Thompson.txt", "w")
+        #write string to file
+        n = text_file.write(expresion+estados+simbolos+inicio+aceptacion+transiciones)
+        #close file
+        text_file.close()
+
+        print(expresion+estados+simbolos+inicio+aceptacion+transiciones)
+        print("\n")
+
 #instrucciones:(b|b)*abb(a|b)* 
-t = Thompson('(b**|b)*abb(a|b)*')
-print("\nEXPRESION REGULAR:", t.postfix)
-print("\nESTADOS: ["+', '.join(t.states)+"]")
-print("SIMBOLOS: ["+', '.join(t.simbolos)+"]")
-print("INICIO: ["+', '.join(t.inicio)+"]")
-print("ACEPTACION: ["+', '.join(t.aceptacion)+"]")
-print("TRANSICIONES:", t.transiciones)
-print("\n")
+t = Thompson('(b**|b)*ab*b(a|b)*')
