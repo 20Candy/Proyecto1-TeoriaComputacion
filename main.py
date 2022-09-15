@@ -11,7 +11,7 @@ dic_transiciones = {}
 acpEstados = []
 
 while x:
-    menu = input("1. Postfix \n2. AFN con Thomson \n3. AFN a AFD \n4. AFD directo \n5. Minimizació AFD \n6. Simulación AFN y AFD\n" )
+    menu = input("1. Postfix \n2. AFN con Thomson \n3. AFN a AFD \n4. AFD directo \n5. Minimizació AFD \n6. Simulación AFN y AFD\n7.Salir \n" )
 
     if menu == "1":
         print("Postfix")
@@ -38,8 +38,8 @@ while x:
     elif menu == "6":
         print("Simulación AFN y AFD")
 
-
-        #Simulacion AFD con subconjuntos
+        #Llamar data necesearia para la simulacion
+        
         if(alfabeto_exp == []):
             #llamar a thomson primero
             alfabeto_exp= ['a', 'b', 'E']
@@ -49,19 +49,21 @@ while x:
         if(len(sub_afd_transiciones.keys()) == 0):
             sub_afd_transiciones = subconjuntos(r,w, alfabeto_exp, dic_transiciones, acpEstados)  
                 
+
+        #Simulacion AFD con subconjuntos
         print("cadena a verificar: ", w)
         simulacionSub = simulacion_AFD(sub_afd_transiciones, w, str("S"+str(acpEstados-1)))
         print("\nAFD (subconjuntos): La cadena pertenece") if simulacionSub else print("\nAFD (subconjuntos): La cadena no pertenece")
     
-
-        #TODO SIMULACION CON DIRECTO
-
-
         #Simulacion con AFN
         simulacion_afn = simulacion_AFN(w, dic_transiciones, "S"+str(acpEstados-1))
         print("AFN: la cadena pertenece\n") if simulacion_afn else print("AFN: la cadena no pertenece\n")
 
 
+    elif menu == "7":
+        print("Salir")
+        x = False
+
     else:
-        print("Opción incorrecta")
+        print("Opción no válida")
         x = False
