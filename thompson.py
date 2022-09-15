@@ -1,4 +1,6 @@
 import copy
+import graphviz
+from fsmdot.dfa import Dfa
 
 class Thompson:
     def __init__(self, infix):
@@ -25,6 +27,8 @@ class Thompson:
         self.Thompson(self.postfix2)
         self.simplifyEstados()
 
+        self.Graph()
+
 
     ##################### FUNCIONES #######################
 
@@ -34,6 +38,8 @@ class Thompson:
         for i in unique:
             if i.isalpha():
                 self.simbolos.append(i)
+
+        self.simbolos.append("E")
 
     def getEstados(self):
         list = [x for x in self.infix]
@@ -334,6 +340,39 @@ class Thompson:
                 tempTransicion.append(route1)
                 self.transiciones.append(tempTransicion)
                 tempTransicion = []
+
+    def Graph(self):
+        q0 = self.inicio[0]
+        F = set(self.aceptacion)
+
+        dot_subconjuntos = graphviz.Digraph(comment="Thompson")
+        dot_subconjuntos.attr(rankdir='LR', size='15')
+        dot_subconjuntos.attr(label="\AFN: Thompson")
+        dot_subconjuntos.attr(fontsize='20')
+        dot_subconjuntos.attr('node', shape='circle')
+
+        dot_subconjuntos.node("", shape='none',height='0',width='0')
+
+        for i in self.states:
+            if(i in F):
+                dot_subconjuntos.node(i,i, shape='doublecircle')
+            if(i in q0):
+                dot_subconjuntos.node(i,i)
+                dot_subconjuntos.edge("", i)
+            else:
+                dot_subconjuntos.node(i,i)
+
+        for i in self.transiciones:
+            dot_subconjuntos.edge(i[0], i[2], i[1])
+        
+        dot_subconjuntos.view()
+        dot_subconjuntos.render(directory='output', filename='Thompson')
+        
+        
+
+
+
+
 
 #instrucciones:(b|b)*abb(a|b)*
 t = Thompson('ab|*a.b.b.ab|*.')
