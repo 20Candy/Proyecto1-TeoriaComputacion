@@ -347,7 +347,8 @@ class Thompson:
 
         dot_subconjuntos = graphviz.Digraph(comment="Thompson")
         dot_subconjuntos.attr(rankdir='LR', size='15')
-        dot_subconjuntos.attr(label="\AFN: Thompson")
+        tempStr = str("\AFN: Thompson // "+self.infix)
+        dot_subconjuntos.attr(label=tempStr)
         dot_subconjuntos.attr(fontsize='20')
         dot_subconjuntos.attr('node', shape='circle')
 
@@ -367,12 +368,6 @@ class Thompson:
         
         dot_subconjuntos.render(directory='output', filename='Thompson')
         
-        
-
-
-
-
-
 #instrucciones:(b|b)*abb(a|b)*
 t = Thompson('ab|*a.b.b.ab|*.')
 print("\nEXPRESION REGULAR:", t.postfix)
