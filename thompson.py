@@ -18,7 +18,7 @@ class Thompson:
 
         self.estadosCopy = copy.deepcopy(self.estados)
 
-        self.postfix = "a*c*."
+        self.postfix = "ab*.ab*.."
         self.postfix = [x for x in self.postfix]
         self.postfix2 = copy.deepcopy(self.postfix)
 
@@ -201,7 +201,72 @@ class Thompson:
                 tempTransicion2 = []
 
             else:
-                pass
+                
+                if("." in postfix):
+                    postfix.pop()
+                    one = [postfix.pop()]
+                    two = []
+
+                    flag = False
+                    for j in reversed(postfix):
+                        if(j == "." or flag):
+                            flag = True
+                            two.append(j)
+                        else:
+                            one.append(j)
+
+                    two.reverse()
+                    one.reverse()
+
+                    self.Thompson(two)
+                    
+                    temp = self.estadosCopy.pop(0)
+                    tempTransicion.append(temp)
+                    tempTransicion.append("ϵ")
+                    inicio = self.estadosCopy[0]
+                    tempTransicion.append(inicio)
+                    self.transiciones.append(tempTransicion) #[['2', 'ϵ', '3'],]
+                    tempTransicion = []
+
+                    
+                    self.Thompson(one) #THOMPSON ['3', 'c', '4']
+                    tempTransicion.append(self.estadosCopy[0]) 
+                    tempTransicion.append("ϵ")
+                    tempTransicion.append(inicio)
+                    self.transiciones.append(tempTransicion) #['4', 'ϵ', '3']
+                    tempTransicion = []
+
+                    tempTransicion2.append(temp)
+                    tempTransicion2.append("ϵ")
+                    tempTransicion2.append(self.estadosCopy[1])
+                    self.transiciones.append(tempTransicion2)
+                    tempTransicion2 = []
+
+
+                    temp = self.estadosCopy.pop(0)
+                    tempTransicion2.append(temp)
+                    tempTransicion2.append("ϵ")
+                    tempTransicion2.append(self.estadosCopy[0])
+                    self.transiciones.append(tempTransicion2)   #['4', 'ϵ', '5']
+                    tempTransicion2 = []
+
+                else:
+                    one = [postfix.pop()]
+                    two = []
+
+                    flag = False
+                    for j in reversed(postfix):
+                        if(j == "*" or flag):
+                            flag = True
+                            two.append(j)
+                        else:
+                            one.append(j)
+
+                    two.reverse()
+                    one.reverse()
+
+                    self.Thompson(two)
+                    self.Thompson(one)
 
   
         
@@ -209,7 +274,7 @@ class Thompson:
             pass
 
 
-t = Thompson('a*c*.')
+t = Thompson('ab*.ab*..')
 print("\nEXPRESION REGULAR:", t.postfix)
 print("\nESTADOS: ["+', '.join(t.states)+"]")
 print("SIMBOLOS: ["+', '.join(t.simbolos)+"]")
