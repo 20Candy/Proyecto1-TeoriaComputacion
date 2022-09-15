@@ -365,7 +365,6 @@ class Thompson:
         for i in self.transiciones:
             dot_subconjuntos.edge(i[0], i[2], i[1])
         
-        dot_subconjuntos.view()
         dot_subconjuntos.render(directory='output', filename='Thompson')
         
         
