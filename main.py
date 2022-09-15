@@ -1,5 +1,6 @@
 from subconjuntos import subconjuntos
 from simulacion import simulacion_AFD, simulacion_AFN
+from thompson import Thompson
 
 x = True
 r = "(b|b)*abb(a|b)*"
@@ -18,6 +19,7 @@ while x:
 
     elif menu == "2":
         print("AFN con Thomson")
+        t = Thompson('(b**|b)*ab*b(a|b)*')
     
     elif menu == "3":
         print("AFN a AFD")
