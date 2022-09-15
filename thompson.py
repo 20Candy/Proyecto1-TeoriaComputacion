@@ -7,7 +7,7 @@ class Thompson:
         self.infix = infix
 
         #instrucciones: bb|*a.b.b.ab|*.
-        self.postfix = "bb|*a.b.b."
+        self.postfix = "bb.*a."
         self.postfix = [x for x in self.postfix]
         self.postfix2 = copy.deepcopy(self.postfix)
 
@@ -122,42 +122,55 @@ class Thompson:
             
             elif((postfix[-2].isalpha() == False)):
                 temp = postfix.pop()
-                
-                if("." in postfix):
-                    one = []
-                    two = []
+                one = []
+                two = []
+                three = []
+                counterOne = 0
+                counterTwo = 0
+                boolOne = True
+                tempBool = True
 
-                    flag = False
-                    for j in reversed(postfix):
-                        if(j == "." or flag):
-                            flag = True
-                            two.append(j)
+                for i in reversed(postfix):
+                    if(boolOne and (counterOne > 0 or tempBool)):
+                        if i == '.':
+                            counterOne += 1
+                            counterTwo += 1
+                        elif i == '|':
+                            counterOne += 1
+                            counterTwo += 1
+                        elif i == '*':
+                            counterOne += 1
+
+                    tempBool = False
+                    if counterOne == 0:
+                        boolOne = False
+                    
+                    elif(boolOne==False):
+                        if i == '.':
+                            counterTwo += 1
+                        elif i == '|':
+                            counterTwo += 1
+                        elif i == '*':
+                            counterTwo += 1
+
+                    if(boolOne):
+                        if i.isalpha():
+                            counterOne -= 1
+                            one.append(i)
                         else:
-                            one.append(j)
-
-                    two.reverse()
-                    one.reverse()
-
-                    self.Thompson(two)
-                    self.Thompson(one)
-
-                else:
-                    one = [postfix.pop()]
-                    two = []
-
-                    flag = False
-                    for j in reversed(postfix):
-                        if(j == "*" or flag):
-                            flag = True
-                            two.append(j)
+                            one.append(i)
+                    else:
+                        if i.isalpha():
+                            counterTwo -= 1
+                            two.append(i)
                         else:
-                            one.append(j)
+                            two.append(i)
 
-                    two.reverse()
-                    one.reverse()
+                one.reverse()
+                two.reverse()
 
-                    self.Thompson(two)
-                    self.Thompson(one)
+                self.Thompson(two)
+                self.Thompson(one)
 
         elif i == '*':
 
@@ -501,5 +514,5 @@ class Thompson:
         print("\n")
 
 #instrucciones:(b|b)*abb(a|b)* 
-t = Thompson('a(a|b)(a|b)(a|b)(a|b)')
+t = Thompson('(bb)*a')
 

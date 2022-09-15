@@ -1,7 +1,7 @@
 // Thompson
 digraph {
 	rankdir=LR size=15
-	label="\AFN: Thompson [(b|b)*abb]"
+	label="\AFN: Thompson [(bb)*a]"
 	fontsize=20
 	node [shape=circle]
 	"" [height=0 shape=none width=0]
@@ -11,24 +11,13 @@ digraph {
 	2 [label=2]
 	3 [label=3]
 	4 [label=4]
+	5 [label=5 shape=doublecircle]
 	5 [label=5]
-	6 [label=6]
-	7 [label=7]
-	8 [label=8]
-	9 [label=9]
-	10 [label=10 shape=doublecircle]
-	10 [label=10]
 	0 -> 1 [label=E]
-	1 -> 2 [label=E]
+	1 -> 2 [label=b]
 	2 -> 3 [label=b]
-	1 -> 4 [label=E]
-	4 -> 5 [label=b]
-	3 -> 6 [label=E]
-	5 -> 6 [label=E]
-	6 -> 1 [label=E]
-	0 -> 7 [label=E]
-	6 -> 7 [label=E]
-	7 -> 8 [label=a]
-	8 -> 9 [label=b]
-	9 -> 10 [label=b]
+	3 -> 1 [label=E]
+	0 -> 4 [label=E]
+	3 -> 4 [label=E]
+	4 -> 5 [label=a]
 }
