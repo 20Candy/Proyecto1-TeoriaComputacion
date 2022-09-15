@@ -5,7 +5,11 @@ from fsmdot.dfa import Dfa
 class Thompson:
     def __init__(self, infix):
         self.infix = infix
-        self.postfix = ''
+
+        #instrucciones: bb|*a.b.b.ab|*.
+        self.postfix = "b**b|*a.b*.b.ab|*."
+        self.postfix = [x for x in self.postfix]
+        self.postfix2 = copy.deepcopy(self.postfix)
 
         self.simbolos = []
         self.estados = []
@@ -13,11 +17,6 @@ class Thompson:
         self.inicio = ["0"]
         self.aceptacion = []
         self.transiciones = []
-
-        #instrucciones: bb|*a.b.b.ab|*.
-        self.postfix = "b**b|*a.b*.b.ab|*."
-        self.postfix = [x for x in self.postfix]
-        self.postfix2 = copy.deepcopy(self.postfix)
 
         self.getSimbolos()
         self.getEstados()
