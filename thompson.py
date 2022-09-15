@@ -17,7 +17,8 @@ class Thompson:
 
         self.estadosCopy = copy.deepcopy(self.estados)
 
-        self.postfix = "bb|*a.b.b.ab|*."
+        #instrucciones: bb|*a.b.b.ab|*.
+        self.postfix = "ab|*a.b.b.ab|*."
         self.postfix = [x for x in self.postfix]
         self.postfix2 = copy.deepcopy(self.postfix)
 
@@ -283,7 +284,6 @@ class Thompson:
                     self.transiciones.append(tempTransicion2)
                     tempTransicion2 = []
 
-
                     temp = self.estadosCopy.pop(0)
                     tempTransicion2.append(temp)
                     tempTransicion2.append("E")
@@ -335,8 +335,8 @@ class Thompson:
                 self.transiciones.append(tempTransicion)
                 tempTransicion = []
 
-
-t = Thompson('bb|*a.b.b.ab|*.')
+#instrucciones:(b|b)*abb(a|b)*
+t = Thompson('ab|*a.b.b.ab|*.')
 print("\nEXPRESION REGULAR:", t.postfix)
 print("\nESTADOS: ["+', '.join(t.states)+"]")
 print("SIMBOLOS: ["+', '.join(t.simbolos)+"]")
