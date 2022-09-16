@@ -1,0 +1,7 @@
+
+EXPRESION REGULAR: (bb)*a
+ESTADOS: [0, 1, 2, 3, 4, 5]
+SIMBOLOS: [a, b, E]
+INICIO: [0]
+ACEPTACION: [5]
+TRANSICIONES: (0, E, 1) - (1, b, 2) - (2, b, 3) - (3, E, 1) - (0, E, 4) - (3, E, 4) - (4, a, 5)
