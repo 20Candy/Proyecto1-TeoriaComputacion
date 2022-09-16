@@ -1,13 +1,19 @@
 import copy
 import graphviz
-from fsmdot.dfa import Dfa
+from postfix import InfixToPostfix, readExp
 
 class Thompson:
     def __init__(self, infix):
         self.infix = infix
 
         #instrucciones: bb|*a.b.b.ab|*.
-        self.postfix = "bb|*a.b.b.ab|*."
+        temp1 = readExp(self.infix)
+        self.postfix = InfixToPostfix(temp1)
+
+        #eliminacion de #.
+        size = len(self.postfix)
+        self.postfix = self.postfix[:size - 2]
+
         self.postfix = [x for x in self.postfix]
         self.postfix2 = copy.deepcopy(self.postfix)
 
@@ -528,7 +534,7 @@ class Thompson:
         print("\n")
 
 #instrucciones:(b|b)*abb(a|b)* 
-t = Thompson('(bb)*a')
+t = Thompson('a(bb)*')
 
 """
 _________________

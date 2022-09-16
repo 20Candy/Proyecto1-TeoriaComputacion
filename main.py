@@ -20,7 +20,7 @@ while x:
 
     elif menu == "2":
         print("AFN con Thomson")
-        t = Thompson('(b**|b)*ab*b(a|b)*')
+        t = Thompson('(b|b)*abb(a|b)*')
     
     elif menu == "3":
         print("AFN a AFD")
