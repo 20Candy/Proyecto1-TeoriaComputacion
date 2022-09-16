@@ -3,10 +3,26 @@ from simulacion import simulacion_AFD, simulacion_AFN
 from thompson import Thompson
 from postfix import InfixToPostfix
 
-x = True
+#PRUEBAS
+
+#verificar esstados de acpetacion
+
+# r = "(abba*|(ab)*ba)" 
+# r = "(abba)*"   
+# r = "(a|b)*" 
+# r = "(aa*)|(bb*)" 
+# r = "a*b*"
+# r = "(b|b)*abb"
+# r = "(b|b)*abb(a|b)*"
+# r = "a(bb)*"
+# r = "(bb)*a"
+
 r = "(b|b)*abb(a|b)*"
 w = "babbbaaaaab"  #pertenece
 #w = "ab"          #no pertenece
+
+
+x = True
 sub_afd_transiciones = {}
 alfabeto_exp = []
 dic_transiciones = {}

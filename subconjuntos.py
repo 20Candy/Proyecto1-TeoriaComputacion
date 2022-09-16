@@ -69,7 +69,7 @@ def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
     # Se dibujan los nodos de afd por subconjuntos
     for i in sub_afd_transiciones.keys():
         estados = ast.literal_eval(i)
-        if (str(acpEstados-1)) in estados:
+        if (str(acpEstados)) in estados:
             final.append(sub_afd_transiciones[i]["Estado del AFD"])
             dot_subconjuntos.node(sub_afd_transiciones[i]["Estado del AFD"], sub_afd_transiciones[i]["Estado del AFD"], shape='doublecircle')
         else:
@@ -82,7 +82,7 @@ def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
                 estados = ast.literal_eval(llave)
 
                 # Estado final
-                if (str(acpEstados-1)) in estados:
+                if (str(acpEstados)) in estados:
                     dot_subconjuntos.node(valor["Estado del AFD"], valor["Estado del AFD"],  shape='doublecircle')
                 else:
                     dot_subconjuntos.node(valor["Estado del AFD"], valor["Estado del AFD"])
