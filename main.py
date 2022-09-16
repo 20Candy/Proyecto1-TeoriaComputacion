@@ -1,6 +1,7 @@
 from subconjuntos import subconjuntos
 from simulacion import simulacion_AFD, simulacion_AFN
 from thompson import Thompson
+from postfix import InfixToPostfix, readExp
 
 x = True
 r = "(b|b)*abb(a|b)*"
