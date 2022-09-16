@@ -15,7 +15,7 @@ def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
     alfabeto_exp.remove("E")
 
     # Cerradura epsilon de estado inicial de afn
-    cerradura_epsilon = cerraduraEpsilon("S0", dic_transiciones, [])
+    cerradura_epsilon = cerraduraEpsilon("0", dic_transiciones, [])
     cerradura_epsilon.sort()
 
     # Diccionario de transiciones de AFD, la llave son los conjuntos de estados
@@ -69,7 +69,7 @@ def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
     # Se dibujan los nodos de afd por subconjuntos
     for i in sub_afd_transiciones.keys():
         estados = ast.literal_eval(i)
-        if ("S"+str(acpEstados-1)) in estados:
+        if (str(acpEstados-1)) in estados:
             final.append(sub_afd_transiciones[i]["Estado del AFD"])
             dot_subconjuntos.node(sub_afd_transiciones[i]["Estado del AFD"], sub_afd_transiciones[i]["Estado del AFD"], shape='doublecircle')
         else:
@@ -82,7 +82,7 @@ def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
                 estados = ast.literal_eval(llave)
 
                 # Estado final
-                if ("S"+str(acpEstados-1)) in estados:
+                if (str(acpEstados-1)) in estados:
                     dot_subconjuntos.node(valor["Estado del AFD"], valor["Estado del AFD"],  shape='doublecircle')
                 else:
                     dot_subconjuntos.node(valor["Estado del AFD"], valor["Estado del AFD"])
@@ -110,5 +110,12 @@ def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
     with open("subconjutnos.txt", 'w') as f: 
         for key, value in estructura.items(): 
             f.write('%s:%s\n' % (key, value))
+
+    print("EXPRESION REGULAR: ", r)
+    print("ESTADOS: ", estadosA)
+    print("SIMBOLOS: ", alfabeto_exp)
+    print("ESTADO INICIAL: ", [0])
+    print("ACEPTACIÓN: ", final)
+    print("TRANSICIONES: ", transiciones)
 
     return sub_afd_transiciones
