@@ -1,7 +1,7 @@
 
 EXPRESION REGULAR: a(bb)*
 ESTADOS: [0, 1, 2, 3, 4, 5]
-SIMBOLOS: [b, a, E]
+SIMBOLOS: [a, b, E]
 INICIO: [0]
 ACEPTACION: [5]
 TRANSICIONES: (0, a, 1) - (1, E, 2) - (2, b, 3) - (3, b, 4) - (4, E, 2) - (1, E, 5) - (4, E, 5)

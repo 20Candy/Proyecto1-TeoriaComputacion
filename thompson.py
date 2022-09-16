@@ -504,6 +504,17 @@ class Thompson:
 
         for i in self.transiciones:
             dot_subconjuntos.edge(i[0], i[2], i[1])
+    
+        self.finalInfo = {}
+        for j in self.states:
+            self.finalInfo[j] = {}
+        
+            for k in self.simbolos:
+                self.finalInfo[j][k] = []
+
+                for l in self.transiciones:
+                    if(l[0] == j and l[1] == k):
+                        self.finalInfo[j][k].append(l[2])
         
         dot_subconjuntos.render(directory='output', filename='Thompson')
 
