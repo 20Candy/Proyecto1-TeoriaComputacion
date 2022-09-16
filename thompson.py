@@ -7,25 +7,26 @@ class Thompson:
         self.infix = infix
 
         #instrucciones: bb|*a.b.b.ab|*.
-        self.postfix = "bb|*a.b.b.ab|*"
+        self.postfix = "bb.*a."
         self.postfix = [x for x in self.postfix]
         self.postfix2 = copy.deepcopy(self.postfix)
 
-        self.simbolos = []
-        self.estados = []
-        self.states = []
-        self.inicio = ["0"]
-        self.aceptacion = []
-        self.transiciones = []
+        if True:
+            self.simbolos = []
+            self.estados = []
+            self.states = []
+            self.inicio = ["0"]
+            self.aceptacion = []
+            self.transiciones = []
 
-        self.getSimbolos()
-        self.getEstados()
-        self.estadosCopy = copy.deepcopy(self.estados)
+            self.getSimbolos()
+            self.getEstados()
+            self.estadosCopy = copy.deepcopy(self.estados)
 
-        self.Thompson(self.postfix2)
-        self.simplifyEstados()
+            self.Thompson(self.postfix2)
+            self.simplifyEstados()
 
-        self.Graph()
+            self.Graph()
 
 
     ##################### FUNCIONES #######################
@@ -390,40 +391,53 @@ class Thompson:
                 tempTransicion = []
 
             else:
-                postfix.pop()
+                temp = postfix.pop()
                 one = [postfix.pop()]
                 two = []
+                three = []
 
-                flag = False
-                for j in reversed(postfix):
-                    if(len(one) > 1 and (j == "." or j == "|" or j == "*" or flag)):
-                        if((len(one))%2 == 0 or flag):
-                            flag = True
-                            two.append(postfix.pop())
+                counterOne = 2 if one[0] == "." else 1
+                counterTwo = 1
+                boolOne = True
+                tempBool = True
+
+                for i in reversed(postfix):
+                    if(boolOne and (counterOne > 0 or tempBool)):
+                        if i == '.':
+                            counterOne += 1
+                            counterTwo += 1
+                        elif i == '|':
+                            counterOne += 1
+                            counterTwo += 1
+
+                    tempBool = False
+                    if counterOne == 0:
+                        boolOne = False
+                    
+                    elif(boolOne==False):
+                        if i == '.':
+                            counterTwo += 1
+                        elif i == '|':
+                            counterTwo += 1
+
+                    if(boolOne):
+                        if i.isalpha():
+                            counterOne -= 1
+                            one.append(postfix.pop())
                         else:
                             one.append(postfix.pop())
                     else:
-                        one.append(postfix.pop())
+                        if i.isalpha():
+                            counterTwo -= 1
+                            two.append(postfix.pop())
+                        else:
+                            two.append(postfix.pop())
 
-                    if(one[0] == "." or one[0] == "|"):
-                        if (len(one) == 3):
-                            if (one[1].isalpha() and one[2].isalpha()):
-                                flag = True
-                    
-                    if(one[0] == "*"):
-                        if (len(one) == 2):
-                            if (one[1].isalpha()):
-                                flag = True
-
-                        if (len(one) == 3):
-                            if (one[1] == "*" and one[2].isalpha()):
-                                flag = True
-
-                two.reverse()
                 one.reverse()
+                two.reverse()
 
                 three = copy.deepcopy(postfix)
-                self.Thompson(three)
+                self.Thompson(three) 
 
                 inicial = self.estadosCopy.pop(0)
                 tempTransicion.append(inicial)
@@ -514,5 +528,34 @@ class Thompson:
         print("\n")
 
 #instrucciones:(b|b)*abb(a|b)* 
-t = Thompson('(b|b)*abb(a|b)*')
+t = Thompson('(bb)*a')
 
+"""
+_________________
+ab.b.a*.ab.*b.a.|
+(abba*|(ab)*ba)
+_________________
+ab.b.a.*
+(abba)*
+_________________
+ab|*
+(a|b)*
+_________________
+aa*.bb*.|
+(aa*)|(bb*)
+_________________
+a*b*.
+a*b*
+_________________
+bb|*a.b.b.
+(b|b)*abb
+_________________
+bb|*a.b.b.ab|*
+(b|b)*abb(a|b)*
+_________________
+abb.*.
+a(bb)*
+_________________
+bb.*a.
+(bb)*a
+"""
