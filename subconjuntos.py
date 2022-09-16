@@ -91,7 +91,6 @@ def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
 
                 transiciones.append([valor["Estado del AFD"], j, valor[j]])
 
-    dot_subconjuntos.view()
     dot_subconjuntos.render(directory='output', filename='Subconjuntos')
 
 
@@ -107,7 +106,7 @@ def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
         "transiciones": transiciones
     }
 
-    with open("subconjutnos.txt", 'w') as f: 
+    with open("output/subconjutnos.txt", 'w') as f: 
         for key, value in estructura.items(): 
             f.write('%s:%s\n' % (key, value))
 
