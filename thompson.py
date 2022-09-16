@@ -7,7 +7,7 @@ class Thompson:
         self.infix = infix
 
         #instrucciones: bb|*a.b.b.ab|*.
-        self.postfix = "bb.*a."
+        self.postfix = "bb|*a.b.b.ab|*."
         self.postfix = [x for x in self.postfix]
         self.postfix2 = copy.deepcopy(self.postfix)
 
