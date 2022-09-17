@@ -21,7 +21,7 @@ def simulacion_AFD(transiciones, w, final):
 
 
 def simulacion_AFN(w, transiciones, estado_final):
-    estados = cerraduraEpsilon("S0", transiciones, [])
+    estados = cerraduraEpsilon("0", transiciones, [])
     contador = 1
     w += "·"
     inicio = w[0]
