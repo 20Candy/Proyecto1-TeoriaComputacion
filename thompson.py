@@ -545,7 +545,7 @@ class Thompson:
         print("\n")
 
 #instrucciones:(b|b)*abb(a|b)* 
-t = Thompson('a(bb)*')
+#t = Thompson('(abba*|(ab)*ba)')
 
 """
 _________________

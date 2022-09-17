@@ -101,7 +101,7 @@ def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
 
         "estados": estadosA,
         "alfabeto": alfabeto_exp,
-        "inicio": [0],
+        "inicio": ['0'],
         "final": final,
         "transiciones": transiciones
     }
@@ -110,4 +110,4 @@ def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
         for key, value in estructura.items(): 
             f.write('%s:%s\n' % (key, value))
 
-    return sub_afd_transiciones
+    return sub_afd_transiciones, estructura
