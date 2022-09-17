@@ -1,13 +1,19 @@
 import copy
 import graphviz
-from fsmdot.dfa import Dfa
+from postfix import InfixToPostfix, readExp
 
 class Thompson:
     def __init__(self, infix):
         self.infix = infix
 
         #instrucciones: bb|*a.b.b.ab|*.
-        self.postfix = "bb|*a.b.b.ab|*."
+        temp1 = readExp(self.infix)
+        self.postfix = InfixToPostfix(temp1)
+
+        #eliminacion de #.
+        size = len(self.postfix)
+        self.postfix = self.postfix[:size - 2]
+
         self.postfix = [x for x in self.postfix]
         self.postfix2 = copy.deepcopy(self.postfix)
 
@@ -498,10 +504,21 @@ class Thompson:
 
         for i in self.transiciones:
             dot_subconjuntos.edge(i[0], i[2], i[1])
+    
+        self.finalInfo = {}
+        for j in self.states:
+            self.finalInfo[j] = {}
+        
+            for k in self.simbolos:
+                self.finalInfo[j][k] = []
+
+                for l in self.transiciones:
+                    if(l[0] == j and l[1] == k):
+                        self.finalInfo[j][k].append(l[2])
         
         dot_subconjuntos.render(directory='output', filename='Thompson')
 
-        expresion = "\nEXPRESION REGULAR: "+self.infix
+        expresion = "EXPRESION REGULAR: "+self.infix
         estados = "\nESTADOS: ["+', '.join(self.states)+"]"
         simbolos = "\nSIMBOLOS: ["+', '.join(self.simbolos)+"]"
         inicio = "\nINICIO: ["+', '.join(self.inicio)+"]"
@@ -528,7 +545,8 @@ class Thompson:
         print("\n")
 
 #instrucciones:(b|b)*abb(a|b)* 
-t = Thompson('(bb)*a')
+#t = Thompson('(abba*|(ab)*ba)')
+#t = Thompson('a(bb)*')
 
 """
 _________________

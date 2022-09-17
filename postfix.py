@@ -4,11 +4,11 @@ ops = {'*': 3, '.': 2, '|': 1}
 
 
 #Función necesaria para leer la expresión regular y agregar los operadores de concatenación
-def readExp():
+def readExp(exp):
     infix = []
     abc = [] 
     symbols = ['*', '|', '(', ')']
-    exp = input('Ingrese la expresion regular: \n')
+    #exp = input('Ingrese la expresion regular: \n')
     exp2 = ''
     for e in exp:
         infix.append(e)
