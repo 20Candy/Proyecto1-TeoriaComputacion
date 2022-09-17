@@ -62,7 +62,7 @@ def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
     # Dibujo AFD por subconjuntos  con graphiz
     dot_subconjuntos = graphviz.Digraph(comment="AFD")
     dot_subconjuntos.attr(rankdir='LR', size='15')
-    dot_subconjuntos.attr(label="\nAFD: Subconjuntos")
+    dot_subconjuntos.attr(label=str("\AFD: Subconjuntos ["+r+"]"))
     dot_subconjuntos.attr(fontsize='20')
     dot_subconjuntos.attr('node', shape='circle')
 
@@ -117,5 +117,6 @@ def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
     print("ESTADO INICIAL: ", [0])
     print("ACEPTACIÓN: ", final)
     print("TRANSICIONES: ", transiciones)
+    print('\n')
 
     return sub_afd_transiciones, estructura

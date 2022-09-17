@@ -18,9 +18,22 @@ class Minimizacion:
         self.inicio2 = []
         self.estados_aceptacion2 = []
 
+        self.states = []
         self.conjuntos = [] # Conjuntos de estados equivalentes
 
         self.minimizar()
+        self.simplifyEstados()
+        self.Graph()
+
+    def simplifyEstados(self):
+        for i in self.transiciones2:
+            for j in i:
+                if(j in self.estados2):
+                    if(j in self.states):
+                        pass
+                    else:
+                        self.states.append(j)
+        
 
     def minimizar(self):
         s = set(self.estados_aceptacion)
@@ -100,8 +113,6 @@ class Minimizacion:
 
         transicionesTemp.sort()
         self.transiciones2 = list(transicionesTemp for transicionesTemp,_ in itertools.groupby(transicionesTemp))
-        
-        self.Graph()
                 
     def Graph(self):
         q0 = self.inicio2[0]
@@ -116,10 +127,14 @@ class Minimizacion:
 
         dot_subconjuntos.node("", shape='none',height='0',width='0')
 
-        for i in self.estados2:
+        for i in self.states:
             if(i in F):
-                dot_subconjuntos.node(i,i, shape='doublecircle')
-            if(i in q0):
+                if(i == q0):
+                    dot_subconjuntos.node(i,i, shape='doublecircle')
+                    dot_subconjuntos.edge("", i)
+                else:
+                    dot_subconjuntos.node(i,i, shape='doublecircle')
+            elif(i in q0):
                 dot_subconjuntos.node(i,i)
                 dot_subconjuntos.edge("", i)
             else:
@@ -129,7 +144,7 @@ class Minimizacion:
             dot_subconjuntos.edge(i[0], i[2], i[1])
     
         self.finalInfo = {}
-        for j in self.estados2:
+        for j in self.states:
             self.finalInfo[j] = {}
         
             for k in self.alfabeto:
@@ -142,7 +157,7 @@ class Minimizacion:
         dot_subconjuntos.render(directory='output', filename='Minimizado')
 
         expresion = "\nEXPRESION REGULAR: "+self.infix
-        estados = "\nESTADOS: ["+', '.join(self.estados2)+"]"
+        estados = "\nESTADOS: ["+', '.join(self.states)+"]"
         simbolos = "\nSIMBOLOS: ["+', '.join(self.alfabeto)+"]"
         inicio = "\nINICIO: ["+', '.join(self.inicio2)+"]"
         aceptacion = "\nACEPTACION: ["+', '.join(self.estados_aceptacion2)+"]"
