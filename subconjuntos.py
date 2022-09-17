@@ -62,7 +62,7 @@ def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
     # Dibujo AFD por subconjuntos  con graphiz
     dot_subconjuntos = graphviz.Digraph(comment="AFD")
     dot_subconjuntos.attr(rankdir='LR', size='15')
-    dot_subconjuntos.attr(label="\nAFD: Subconjuntos")
+    dot_subconjuntos.attr(label=str("\AFD: Subconjuntos ["+r+"]"))
     dot_subconjuntos.attr(fontsize='20')
     dot_subconjuntos.attr('node', shape='circle')
 
@@ -91,7 +91,6 @@ def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
 
                 transiciones.append([valor["Estado del AFD"], j, valor[j]])
 
-    dot_subconjuntos.view()
     dot_subconjuntos.render(directory='output', filename='Subconjuntos')
 
 
@@ -102,20 +101,22 @@ def subconjuntos(r,w,alfabeto_exp,dic_transiciones, acpEstados):
 
         "estados": estadosA,
         "alfabeto": alfabeto_exp,
-        "inicio": [0],
+        "inicio": ['0'],
         "final": final,
         "transiciones": transiciones
     }
 
-    with open("subconjutnos.txt", 'w') as f: 
+    with open("output/subconjutnos.txt", 'w') as f: 
         for key, value in estructura.items(): 
             f.write('%s:%s\n' % (key, value))
 
+    
     print("EXPRESION REGULAR: ", r)
     print("ESTADOS: ", estadosA)
     print("SIMBOLOS: ", alfabeto_exp)
     print("ESTADO INICIAL: ", [0])
     print("ACEPTACIÓN: ", final)
     print("TRANSICIONES: ", transiciones)
+    print('\n')
 
-    return sub_afd_transiciones
+    return sub_afd_transiciones, estructura

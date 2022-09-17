@@ -518,7 +518,7 @@ class Thompson:
         
         dot_subconjuntos.render(directory='output', filename='Thompson')
 
-        expresion = "\nEXPRESION REGULAR: "+self.infix
+        expresion = "EXPRESION REGULAR: "+self.infix
         estados = "\nESTADOS: ["+', '.join(self.states)+"]"
         simbolos = "\nSIMBOLOS: ["+', '.join(self.simbolos)+"]"
         inicio = "\nINICIO: ["+', '.join(self.inicio)+"]"
@@ -545,7 +545,8 @@ class Thompson:
         print("\n")
 
 #instrucciones:(b|b)*abb(a|b)* 
-# t = Thompson('a(bb)*')
+#t = Thompson('(abba*|(ab)*ba)')
+#t = Thompson('a(bb)*')
 
 """
 _________________

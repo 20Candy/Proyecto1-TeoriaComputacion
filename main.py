@@ -1,25 +1,24 @@
 from subconjuntos import subconjuntos
 from simulacion import simulacion_AFD, simulacion_AFN
 from thompson import Thompson
-from postfix import InfixToPostfix
+from minimizacion import Minimizacion
+from postfix import InfixToPostfix, readExp
 
 #PRUEBAS
-
 #verificar esstados de acpetacion
-
-# r = "(abba*|(ab)*ba)" 
+r = "(abba*|(ab)*ba)" 
 # r = "(abba)*"   
 # r = "(a|b)*" 
-# r = "(aa*)|(bb*)" 
-# r = "a*b*"
+#r = "(aa*)|(bb*)" 
+#r = "a*b*"
 # r = "(b|b)*abb"
 # r = "(b|b)*abb(a|b)*"
 # r = "a(bb)*"
 # r = "(bb)*a"
 
-r = "(b|b)*abb(a|b)*"
-w = "babbbaaaaab"  #pertenece
-#w = "ab"          #no pertenece
+#r = "(b|b)*abb(a|b)*"
+#w = "babbbaaaaab"  #pertenece
+w = "ab"          #no pertenece
 
 
 x = True
@@ -32,11 +31,18 @@ while x:
     menu = input("1. Postfix \n2. AFN con Thomson \n3. AFN a AFD \n4. AFD directo \n5. Minimizació AFD \n6. Simulación AFN y AFD\n7.Salir \n" )
 
     if menu == "1":
-        print("Postfix")
-        print(InfixToPostfix(r) + "\n")
+        print("\nPostfix")
+        temp1 = readExp(r)
+        postfix = InfixToPostfix(temp1)
+
+        #eliminacion de #.
+        size = len(postfix)
+        postfix = postfix[:size - 2]
+
+        print(postfix, "\n")
 
     elif menu == "2":
-        print("AFN con Thomson")
+        print("\nAFN con Thomson")
         t = Thompson(r)
 
         #instancear variables necesarias para subconjuntos
@@ -44,9 +50,8 @@ while x:
         dic_transiciones = t.finalInfo
         acpEstados = int(t.aceptacion[0])
 
-
     elif menu == "3":
-        print("AFN a AFD")
+        print("\nAFN a AFD")
 
         #si no se habia creado thomson primero
         if alfabeto_exp == []:
@@ -55,16 +60,26 @@ while x:
             dic_transiciones = t.finalInfo
             acpEstados = int(t.aceptacion[0])
 
-        sub_afd_transiciones = subconjuntos(r,w, alfabeto_exp, dic_transiciones, acpEstados)
+        sub_afd_transiciones, info = subconjuntos(r,w, alfabeto_exp, dic_transiciones, acpEstados)
     
     elif menu == "4":
-        print("AFD directo")
+        print("\nAFD directo")
     
     elif menu == "5":
-        print("Minimizació AFD")
+        print("\nMinimización AFD")
+
+        #si no se habia creado thomson primero
+        if alfabeto_exp == []:
+            t = Thompson(r)
+            alfabeto_exp= t.simbolos
+            dic_transiciones = t.finalInfo
+            acpEstados = int(t.aceptacion[0])
+
+        sub_afd_transiciones, info = subconjuntos(r,w, alfabeto_exp, dic_transiciones, acpEstados)
+        m = Minimizacion(info, r)
 
     elif menu == "6":
-        print("Simulación AFN y AFD")
+        print("\nSimulación AFN y AFD")
 
         #si no se ha habia creado thomson primero
         if(alfabeto_exp == []):
@@ -90,9 +105,9 @@ while x:
 
 
     elif menu == "7":
-        print("Salir")
+        print("\nSalir")
         x = False
 
     else:
-        print("Opción no válida")
+        print("\nOpción no válida")
         x = False
