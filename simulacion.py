@@ -14,10 +14,11 @@ def simulacion_AFD(transiciones, w, final):
     for llave, valor in transiciones.items():
         if valor["Estado del AFD"] == current_state:
             estado = ast.literal_eval(llave)
-            if final in estado:
-                return True
-            else:
-                return False
+            for i in final:
+                if i in estado:
+                    return True
+                else:
+                    return False
 
 
 def simulacion_AFN(w, transiciones, estado_final):

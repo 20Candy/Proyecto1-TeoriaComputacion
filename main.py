@@ -106,7 +106,7 @@ while x:
             t = Thompson(r)
             alfabeto_exp= t.simbolos
             dic_transiciones = t.finalInfo
-            acpEstados = int(t.aceptacion[0])
+            acpEstados = t.aceptacion
 
         #si no se ha creado subconjuntos primero
         if(len(sub_afd_transiciones.keys()) == 0):
@@ -114,7 +114,7 @@ while x:
                 
         #Simulacion AFD con subconjuntos
         print("cadena a verificar: ", w)
-        simulacionSub = simulacion_AFD(sub_afd_transiciones, w, str(str(acpEstados-1)))
+        simulacionSub = simulacion_AFD(sub_afd_transiciones, w, acpEstados)
         print("\nAFD (subconjuntos): La cadena pertenece") if simulacionSub else print("\nAFD (subconjuntos): La cadena no pertenece")
 
     elif menu == "9":   #todo @carol cuando termine perdomo
@@ -122,6 +122,26 @@ while x:
 
     elif menu == "10":  #todo @carol
         print("\nSimulación AFD (minimizado subconjuntos)")
+
+        #si no se ha habia creado thomson primero
+        if(alfabeto_exp == []):
+            #llamar a thomson primero
+            t = Thompson(r)
+            alfabeto_exp= t.simbolos
+            dic_transiciones = t.finalInfo
+            acpEstados = t.aceptacion
+
+        #si no se ha creado subconjuntos primero
+        if(len(sub_afd_transiciones.keys()) == 0):
+            sub_afd_transiciones, info = subconjuntos(r,w, copy.deepcopy(alfabeto_exp), copy.deepcopy(dic_transiciones), acpEstados)
+
+        #llamar a minimizacion
+        m = Minimizacion(info, r)
+                
+        #Simulacion 
+        print("cadena a verificar: ", w)
+        simulacion = simulacion_AFD(sub_afd_transiciones, w, acpEstados)
+        print("\nAFD (subconjuntos): La cadena pertenece") if simulacion else print("\nAFD (subconjuntos): La cadena no pertenece")
 
     elif menu == "11":  #todo @carol cuando termine perdomo y stefano
         print("\nSimulación AFD (minimizado directo)")
