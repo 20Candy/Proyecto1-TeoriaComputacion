@@ -120,7 +120,7 @@ while x:
         #Simulacion AFD con subconjuntos
         print("cadena a verificar: ", w)
         start = timer()
-        simulacionSub = simulacion_AFD(sub_afd_transiciones, w, acpEstados-1)
+        simulacionSub = simulacion_AFD(sub_afd_transiciones, w, acpEstados)
         end = timer()
         print("\nAFD (subconjuntos): La cadena pertenece") if simulacionSub else print("\nAFD (subconjuntos): La cadena no pertenece")
         print("Tiempo de simulación:",end - start)
