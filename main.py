@@ -1,3 +1,4 @@
+from inspect import trace
 from subconjuntos import subconjuntos
 from simulacion import simulacion_AFD, simulacion_AFN
 from thompson import Thompson
@@ -146,10 +147,44 @@ while x:
         #llamar a minimizacion
         m = Minimizacion(info, r)
                 
+        transiciones = m.finalInfo
+        formato_transiciones = {}
+        tempBool = True
+
+        #formato de transiciones para simulacion
+        for id_place, element in transiciones.items():
+            elementa = None
+            elementb = None
+
+            if(id_place == "0"):
+                tempBool = False
+            
+            if(tempBool):
+                id_place = str(int(id_place) - 1)
+
+                if element['a'] != []:
+                    elementa = str(int(element['a'][0]) - 1)
+
+                if element['b'] != []:
+                    elementb = str(int(element['b'][0]) - 1)
+
+            else:
+                if element['a'] != []:
+                    elementa = element['a'][0]
+
+                if element['b'] != []:
+                    elementb = element['b'][0]
+
+            formato_transiciones[str("['"+(id_place)+"']")] = {"Estado del AFD":id_place, 'a':elementa, 'b':elementb}
+
+
         #Simulacion 
         print("cadena a verificar: ", w)
-        simulacion = simulacion_AFD(sub_afd_transiciones, w, acpEstados)
-        print("\nAFD (subconjuntos): La cadena pertenece") if simulacion else print("\nAFD (subconjuntos): La cadena no pertenece")
+        start = timer()
+        simulacion = simulacion_AFD(formato_transiciones, w, acpEstados)
+        end = timer()
+        print("\nAFD (minimizado subconjuntos): La cadena pertenece") if simulacion else print("\nAFD (minimizado subconjuntos): La cadena no pertenece")
+        print("Tiempo de simulación:",end - start)
 
     elif menu == "11":  #todo @carol cuando termine perdomo y stefano
         print("\nSimulación AFD (minimizado directo)")
