@@ -14,14 +14,13 @@ r = "(abba*|(ab)*ba)"
 #r = "(aa*)|(bb*)" 
 #r = "a*b*"
 # r = "(b|b)*abb"
-# r = "(b|b)*abb(a|b)*"
+#r = "(b|b)*abb(a|b)*"
 # r = "a(bb)*"
 # r = "(bb)*a"
 
 #r = "(b|b)*abb(a|b)*"
-#w = "babbbaaaaab"  #pertenece
+#w = "abba"  #pertenece
 w = "ab"          #no pertenece
-
 
 x = True
 sub_afd_transiciones = {}
@@ -56,11 +55,10 @@ while x:
         print("\nAFN a AFD")
 
         #si no se habia creado thomson primero
-        if alfabeto_exp == []:
-            t = Thompson(r)
-            alfabeto_exp= t.simbolos
-            dic_transiciones = t.finalInfo
-            acpEstados = t.aceptacion
+        t = Thompson(r)
+        alfabeto_exp= t.simbolos
+        dic_transiciones = t.finalInfo
+        acpEstados = t.aceptacion[0]
 
         sub_afd_transiciones, info = subconjuntos(r,w, copy.deepcopy(alfabeto_exp), copy.deepcopy(dic_transiciones), acpEstados)
 
@@ -71,11 +69,10 @@ while x:
         print("\nMinimización AFD (subconjuntos)")
 
         #si no se habia creado thomson primero
-        if alfabeto_exp == []:
-            t = Thompson(r)
-            alfabeto_exp= t.simbolos
-            dic_transiciones = t.finalInfo
-            acpEstados = t.aceptacion
+        t = Thompson(r)
+        alfabeto_exp= t.simbolos
+        dic_transiciones = t.finalInfo
+        acpEstados = t.aceptacion[0]
 
         sub_afd_transiciones, info = subconjuntos(r,w, copy.deepcopy(alfabeto_exp), copy.deepcopy(dic_transiciones), acpEstados)
         m = Minimizacion(info, r)
@@ -86,39 +83,34 @@ while x:
     elif menu == "7":
         print("\nSimulación AFN")
 
-        #si no se ha habia creado thomson primero
-        if(alfabeto_exp == []):
-            #llamar a thomson primero
-            t = Thompson(r)
-            alfabeto_exp= t.simbolos
-            dic_transiciones = t.finalInfo
-            acpEstados = t.aceptacion
+        t = Thompson(r)
+        alfabeto_exp= t.simbolos
+        dic_transiciones = t.finalInfo
+        acpEstados = t.aceptacion[0]
 
         #Simulacion con AFN
         start = timer()
         simulacion_afn = simulacion_AFN(w, copy.deepcopy(dic_transiciones), acpEstados)
         end = timer()
-        print("cadena a verificar: ", w)
+        print("\nRegex: ", r)
+        print("Cadena a verificar: ", w)
         print("\nAFN: la cadena pertenece.") if simulacion_afn else print("\nAFN: la cadena no pertenece.")
         print("Tiempo de simulación:",end - start)
 
     elif menu == "8":
         print("\nSimulación AFD (subconjuntos)")
 
-        #si no se ha habia creado thomson primero
-        if(alfabeto_exp == []):
-            #llamar a thomson primero
-            t = Thompson(r)
-            alfabeto_exp= t.simbolos
-            dic_transiciones = t.finalInfo
-            acpEstados = t.aceptacion
 
-        #si no se ha creado subconjuntos primero
-        if(len(sub_afd_transiciones.keys()) == 0):
-            sub_afd_transiciones, info = subconjuntos(r,w, copy.deepcopy(alfabeto_exp), copy.deepcopy(dic_transiciones), acpEstados)
+        t = Thompson(r)
+        alfabeto_exp= t.simbolos
+        dic_transiciones = t.finalInfo
+        acpEstados = t.aceptacion
+
+        sub_afd_transiciones, info = subconjuntos(r,w, copy.deepcopy(alfabeto_exp), copy.deepcopy(dic_transiciones), acpEstados)
                 
         #Simulacion AFD con subconjuntos
-        print("cadena a verificar: ", w)
+        print("\nRegex: ", r)
+        print("Cadena a verificar: ", w)
         start = timer()
         simulacionSub = simulacion_AFD(sub_afd_transiciones, w, acpEstados)
         end = timer()
@@ -131,25 +123,61 @@ while x:
     elif menu == "10": 
         print("\nSimulación AFD (minimizado subconjuntos)")
 
-        #si no se ha habia creado thomson primero
-        if(alfabeto_exp == []):
-            #llamar a thomson primero
-            t = Thompson(r)
-            alfabeto_exp= t.simbolos
-            dic_transiciones = t.finalInfo
-            acpEstados = t.aceptacion
+        t = Thompson(r)
+        alfabeto_exp= t.simbolos
+        dic_transiciones = t.finalInfo
+        acpEstados = t.aceptacion[0]
 
-        #si no se ha creado subconjuntos primero
-        if(len(sub_afd_transiciones.keys()) == 0):
-            sub_afd_transiciones, info = subconjuntos(r,w, copy.deepcopy(alfabeto_exp), copy.deepcopy(dic_transiciones), acpEstados)
-
-        #llamar a minimizacion
+        sub_afd_transiciones, info = subconjuntos(r,w, copy.deepcopy(alfabeto_exp), copy.deepcopy(dic_transiciones), acpEstados)
         m = Minimizacion(info, r)
                 
+        transiciones = m.finalInfo
+        formato_transiciones = {}
+        tempBool = True
+
+        #formato de transiciones para simulacion
+        for id_place, element in transiciones.items():
+            elementa = None
+            elementb = None
+
+            if(id_place == "0"):
+                tempBool = False
+            
+            if(tempBool):
+                id_place = str(int(id_place) - 1)
+
+                if element['a'] != []:
+                    elementa = str(int(element['a'][0]) - 1)
+
+                if element['b'] != []:
+                    elementb = str(int(element['b'][0]) - 1)
+
+            else:
+                if element['a'] != []:
+                    elementa = element['a'][0]
+
+                if element['b'] != []:
+                    elementb = element['b'][0]
+
+            formato_transiciones[str("['"+(id_place)+"']")] = {"Estado del AFD":id_place, 'a':elementa, 'b':elementb}
+
+        aceptacionMin = []
+        if tempBool:
+            for i in m.estados_aceptacion2:
+                i = str(int(i) - 1)
+                aceptacionMin.append(i)
+        else:
+            aceptacionMin = m.estados_aceptacion2
+
+
         #Simulacion 
-        print("cadena a verificar: ", w)
-        simulacion = simulacion_AFD(sub_afd_transiciones, w, acpEstados)
-        print("\nAFD (subconjuntos): La cadena pertenece") if simulacion else print("\nAFD (subconjuntos): La cadena no pertenece")
+        print("\nRegex: ", r)
+        print("Cadena a verificar: ", w)
+        start = timer()
+        simulacion = simulacion_AFD(formato_transiciones, w, aceptacionMin)
+        end = timer()
+        print("\nAFD (minimizado subconjuntos): La cadena pertenece") if simulacion else print("\nAFD (minimizado subconjuntos): La cadena no pertenece")
+        print("Tiempo de simulación:",end - start)
 
     elif menu == "11":  #todo @carol cuando termine perdomo y stefano
         print("\nSimulación AFD (minimizado directo)")
