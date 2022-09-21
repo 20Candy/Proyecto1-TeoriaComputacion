@@ -18,7 +18,7 @@ r = "(abba*|(ab)*ba)"
 
 #r = "(b|b)*abb(a|b)*"
 #w = "babbbaaaaab"  #pertenece
-w = "ab"          #no pertenece
+w = "abba"          #no pertenece
 
 
 x = True
@@ -28,7 +28,7 @@ dic_transiciones = {}
 acpEstados = []
 
 while x:
-    menu = input("1. Postfix \n2. AFN con Thomson \n3. AFN a AFD \n4. AFD directo \n5. Minimizació AFD \n6. Simulación AFN y AFD\n7.Salir \n" )
+    menu = input("\n1. Postfix \n2. AFN con Thomson \n3. AFN a AFD \n4. AFD directo \n\n5. Minimización AFD (subconjuntos) \n6. Minimización AFD (directo) \n\n7. Simulación AFN \n8. Simulación AFD (subconjuntos) \n9. Simulación AFD (directo) \n10. Simulación AFD minimizado (subconjuntos) \n11. Simulación AFD minimizado (directo) \n\n12. Salir \n" )
 
     if menu == "1":
         print("\nPostfix")
@@ -61,12 +61,12 @@ while x:
             acpEstados = int(t.aceptacion[0])
 
         sub_afd_transiciones, info = subconjuntos(r,w, alfabeto_exp, dic_transiciones, acpEstados)
-    
-    elif menu == "4":
+
+    elif menu == "4":               #todo @perdomo
         print("\nAFD directo")
     
     elif menu == "5":
-        print("\nMinimización AFD")
+        print("\nMinimización AFD (subconjuntos)")
 
         #si no se habia creado thomson primero
         if alfabeto_exp == []:
@@ -77,9 +77,27 @@ while x:
 
         sub_afd_transiciones, info = subconjuntos(r,w, alfabeto_exp, dic_transiciones, acpEstados)
         m = Minimizacion(info, r)
+    
+    elif menu == "6":              #todo @stefano cuando termine perdomo
+        print("\nMinimización AFD (directo)")
 
-    elif menu == "6":
-        print("\nSimulación AFN y AFD")
+    elif menu == "7":
+        print("\nSimulación AFN")
+
+        #si no se ha habia creado thomson primero
+        if(alfabeto_exp == []):
+            #llamar a thomson primero
+            t = Thompson(r)
+            alfabeto_exp= t.simbolos
+            dic_transiciones = t.finalInfo
+            acpEstados = int(t.aceptacion[0])
+
+        #Simulacion con AFN
+        simulacion_afn = simulacion_AFN(w, dic_transiciones, str(acpEstados-1))
+        print("AFN: la cadena pertenece\n") if simulacion_afn else print("AFN: la cadena no pertenece\n")
+
+    elif menu == "8":
+        print("\nSimulación AFD (subconjuntos)")
 
         #si no se ha habia creado thomson primero
         if(alfabeto_exp == []):
@@ -91,23 +109,25 @@ while x:
 
         #si no se ha creado subconjuntos primero
         if(len(sub_afd_transiciones.keys()) == 0):
-            sub_afd_transiciones = subconjuntos(r,w, alfabeto_exp, dic_transiciones, acpEstados)  
+            sub_afd_transiciones, items = subconjuntos(r,w, alfabeto_exp, dic_transiciones, acpEstados)  
                 
-
         #Simulacion AFD con subconjuntos
         print("cadena a verificar: ", w)
         simulacionSub = simulacion_AFD(sub_afd_transiciones, w, str(str(acpEstados-1)))
         print("\nAFD (subconjuntos): La cadena pertenece") if simulacionSub else print("\nAFD (subconjuntos): La cadena no pertenece")
-    
-        #Simulacion con AFN
-        simulacion_afn = simulacion_AFN(w, dic_transiciones, str(acpEstados-1))
-        print("AFN: la cadena pertenece\n") if simulacion_afn else print("AFN: la cadena no pertenece\n")
 
+    elif menu == "9":   #todo @carol cuando termine perdomo
+        print("\nSimulación AFD (directo)")
 
-    elif menu == "7":
+    elif menu == "10":  #todo @carol
+        print("\nSimulación AFD (minimizado subconjuntos)")
+
+    elif menu == "11":  #todo @carol cuando termine perdomo y stefano
+        print("\nSimulación AFD (minimizado directo)")
+
+    elif menu == "12":
         print("\nSalir")
         x = False
 
     else:
-        print("\nOpción no válida")
-        x = False
+        print("\nOpción no válida\n")
