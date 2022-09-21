@@ -4,6 +4,7 @@ from thompson import Thompson
 from minimizacion import Minimizacion
 from postfix import InfixToPostfix, readExp
 import copy
+from timeit import default_timer as timer
 
 #PRUEBAS
 #verificar esstados de acpetacion
@@ -94,8 +95,12 @@ while x:
             acpEstados = int(t.aceptacion[0])
 
         #Simulacion con AFN
+        start = timer()
         simulacion_afn = simulacion_AFN(w, copy.deepcopy(dic_transiciones), str(acpEstados-1))
-        print("AFN: la cadena pertenece\n") if simulacion_afn else print("AFN: la cadena no pertenece\n")
+        end = timer()
+        print("cadena a verificar: ", w)
+        print("\nAFN: la cadena pertenece.") if simulacion_afn else print("\nAFN: la cadena no pertenece.")
+        print("Tiempo de simulación:",end - start)
 
     elif menu == "8":
         print("\nSimulación AFD (subconjuntos)")
@@ -114,8 +119,11 @@ while x:
                 
         #Simulacion AFD con subconjuntos
         print("cadena a verificar: ", w)
-        simulacionSub = simulacion_AFD(sub_afd_transiciones, w, acpEstados)
+        start = timer()
+        simulacionSub = simulacion_AFD(sub_afd_transiciones, w, str(str(acpEstados-1)))
+        end = timer()
         print("\nAFD (subconjuntos): La cadena pertenece") if simulacionSub else print("\nAFD (subconjuntos): La cadena no pertenece")
+        print("Tiempo de simulación:",end - start)
 
     elif menu == "9":   #todo @carol cuando termine perdomo
         print("\nSimulación AFD (directo)")
