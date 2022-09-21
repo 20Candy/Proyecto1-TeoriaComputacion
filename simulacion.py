@@ -3,6 +3,7 @@ from utils import *
 
 def simulacion_AFD(transiciones, w, final):
     current_state = "0"
+    in_estado = False
     for i in w:
         llave = ""
         for key, v in transiciones.items():
@@ -16,9 +17,9 @@ def simulacion_AFD(transiciones, w, final):
             estado = ast.literal_eval(llave)
             for i in final:
                 if i in estado:
-                    return True
-                else:
-                    return False
+                    in_estado = True
+
+    return in_estado
 
 
 def simulacion_AFN(w, transiciones, estado_final):
