@@ -36,6 +36,7 @@ class Minimizacion:
         
 
     def minimizar(self):
+        #reference https://en.wikipedia.org/wiki/DFA_minimization
         s = set(self.estados_aceptacion)
         temp3 = [x for x in self.estados if x not in s]
 
