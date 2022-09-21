@@ -120,7 +120,7 @@ while x:
         #Simulacion AFD con subconjuntos
         print("cadena a verificar: ", w)
         start = timer()
-        simulacionSub = simulacion_AFD(sub_afd_transiciones, w, str(str(acpEstados-1)))
+        simulacionSub = simulacion_AFD(sub_afd_transiciones, w, acpEstados-1)
         end = timer()
         print("\nAFD (subconjuntos): La cadena pertenece") if simulacionSub else print("\nAFD (subconjuntos): La cadena no pertenece")
         print("Tiempo de simulación:",end - start)
@@ -128,7 +128,7 @@ while x:
     elif menu == "9":   #todo @carol cuando termine perdomo
         print("\nSimulación AFD (directo)")
 
-    elif menu == "10":  #todo @carol
+    elif menu == "10": 
         print("\nSimulación AFD (minimizado subconjuntos)")
 
         #si no se ha habia creado thomson primero
