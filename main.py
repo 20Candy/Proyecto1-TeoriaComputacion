@@ -3,6 +3,7 @@ from simulacion import simulacion_AFD, simulacion_AFN
 from thompson import Thompson
 from minimizacion import Minimizacion
 from postfix import InfixToPostfix, readExp
+import copy
 
 #PRUEBAS
 #verificar esstados de acpetacion
@@ -60,7 +61,7 @@ while x:
             dic_transiciones = t.finalInfo
             acpEstados = int(t.aceptacion[0])
 
-        sub_afd_transiciones, info = subconjuntos(r,w, alfabeto_exp, dic_transiciones, acpEstados)
+        sub_afd_transiciones, info = subconjuntos(r,w, copy.deepcopy(alfabeto_exp), copy.deepcopy(dic_transiciones), acpEstados)
 
     elif menu == "4":               #todo @perdomo
         print("\nAFD directo")
@@ -75,7 +76,7 @@ while x:
             dic_transiciones = t.finalInfo
             acpEstados = int(t.aceptacion[0])
 
-        sub_afd_transiciones, info = subconjuntos(r,w, alfabeto_exp, dic_transiciones, acpEstados)
+        sub_afd_transiciones, info = subconjuntos(r,w, copy.deepcopy(alfabeto_exp), copy.deepcopy(dic_transiciones), acpEstados)
         m = Minimizacion(info, r)
     
     elif menu == "6":              #todo @stefano cuando termine perdomo
@@ -93,7 +94,7 @@ while x:
             acpEstados = int(t.aceptacion[0])
 
         #Simulacion con AFN
-        simulacion_afn = simulacion_AFN(w, dic_transiciones, str(acpEstados-1))
+        simulacion_afn = simulacion_AFN(w, copy.deepcopy(dic_transiciones), str(acpEstados-1))
         print("AFN: la cadena pertenece\n") if simulacion_afn else print("AFN: la cadena no pertenece\n")
 
     elif menu == "8":
@@ -109,7 +110,7 @@ while x:
 
         #si no se ha creado subconjuntos primero
         if(len(sub_afd_transiciones.keys()) == 0):
-            sub_afd_transiciones, items = subconjuntos(r,w, alfabeto_exp, dic_transiciones, acpEstados)  
+            sub_afd_transiciones, info = subconjuntos(r,w, copy.deepcopy(alfabeto_exp), copy.deepcopy(dic_transiciones), acpEstados)
                 
         #Simulacion AFD con subconjuntos
         print("cadena a verificar: ", w)
