@@ -17,11 +17,11 @@ from timeit import default_timer as timer
 # r = "a(bb)*"
 # r = "(bb)*a"
 
-r = "(abba*|(ab)*ba)" 
-#r = "(b|b)*abb(a|b)*"
-w = "abba"  #pertenece
+#r = "(abba*|(ab)*ba)" 
+r = "(b|b)*abb(a|b)*"
+#w = "abba"  #pertenece
 #w = 'bbbbabb'
-#w = "ab"          #no pertenece
+w = "ab"          #no pertenece
 
 x = True
 sub_afd_transiciones = {}
