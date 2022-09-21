@@ -8,7 +8,7 @@ from timeit import default_timer as timer
 
 #PRUEBAS
 #verificar esstados de acpetacion
-r = "(abba*|(ab)*ba)" 
+#r = "(abba*|(ab)*ba)" 
 # r = "(abba)*"   
 # r = "(a|b)*" 
 #r = "(aa*)|(bb*)" 
@@ -18,8 +18,9 @@ r = "(abba*|(ab)*ba)"
 # r = "a(bb)*"
 # r = "(bb)*a"
 
-#r = "(b|b)*abb(a|b)*"
+r = "(b|b)*abb(a|b)*"
 #w = "abba"  #pertenece
+#w = 'bbbbabb'
 w = "ab"          #no pertenece
 
 x = True
