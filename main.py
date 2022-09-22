@@ -9,21 +9,10 @@ from direct_build import direct_AFD
 
 #PRUEBAS
 #verificar esstados de acpetacion
-# r = "(abba)*"   
-# r = "(a|b)*" 
-#r = "(aa*)|(bb*)" 
-#r = "a*b*"
-# r = "(b|b)*abb"
-#r = "(b|b)*abb(a|b)*"
-# r = "a(bb)*"
-# r = "(bb)*a"
 
-#r = "((abba*)|((ab)*ba))"      #PRUEBA 1
-#r = "(b|b)*abb(a|b)*"          #PRUEBA 2
-r = "(a|b)*(a|(bb))*"           #PRUEBA TEMPORAL
-w = "abba"                      #pertenece PRUEBA1
-#w = 'bbbbabb'                  #pertenece PRUEBA2
-#w = "ab"                       #no pertenece ni a Prueba1 ni a Prueba2
+r = "(a|b)*(a|(bb))*"           #PRUEBA 1
+#w = "abba"                      #pertenece PRUEBA1
+#w = 'bbbbabb'                  #pertenece PRUEBA1
 
 x = True
 sub_afd_transiciones = {}

@@ -145,7 +145,7 @@ def direct_AFD(exp1):
                 dot_subconjuntos.edge("", str(i))
             else:
                 dot_subconjuntos.node(str(i),str(i), shape='doublecircle')
-        elif(i in 0):
+        elif(i == 0):
             dot_subconjuntos.node(str(i),str(i))
             dot_subconjuntos.edge("", str(i))
         else:
