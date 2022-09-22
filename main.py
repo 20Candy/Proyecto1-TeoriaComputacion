@@ -14,6 +14,10 @@ r = "(a|b)*(a|(bb))*"           #PRUEBA 1
 #w = "abba"                      #pertenece PRUEBA1
 w = 'bbbbabb'                  #pertenece PRUEBA1
 
+#r = "(a|b)*abb"                 #PRUEBA 2
+#w = "aabb"                      #pertenece PRUEBA2
+#w = "abba"                      #no pertenece PRUEBA2
+
 x = True
 sub_afd_transiciones = {}
 alfabeto_exp = []
