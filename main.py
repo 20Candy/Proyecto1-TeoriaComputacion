@@ -66,6 +66,8 @@ while x:
 
     elif menu == "4":               #todo @perdomo
         print("\nAFD directo")
+        direct = direct_AFD(r)
+
     
     elif menu == "5":
         print("\nMinimización AFD (subconjuntos)")
@@ -81,6 +83,8 @@ while x:
     
     elif menu == "6":              #todo @stefano cuando termine perdomo
         print("\nMinimización AFD (directo)")
+
+
 
     elif menu == "7":
         print("\nSimulación AFN")

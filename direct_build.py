@@ -30,7 +30,10 @@ def buildTree(e, exp):
 
 #Funcion para determinar el AFD directo
 def direct_AFD(exp1):
-    exp = list(exp1)
+
+    exp = InfixToPostfix(readExp(exp1))
+    exp = list(exp)
+    
     tree2 = buildTree(exp.pop(),exp)
     tree2.traversePostOrder()
     print('\n')
@@ -106,11 +109,6 @@ def direct_AFD(exp1):
     for e in StateTransitions:
         for g in StateTransitions[e]:
             transiciones.append([g, e, StateTransitions[e][g]])
-    print('Estados: ', estados)
-    print('Alfabeto: ', transitions)
-    print('Transiciones: ', transiciones)
-    print('Estado(s) de aceptación: ', acceptance)
-    print('Estado inicial: ', 0)
 
     estructura = {
         'estados': estados,
@@ -125,6 +123,15 @@ def direct_AFD(exp1):
             outfile.write(key + ': ' + str(value) + '\n')
 
     #print(acceptance)
+
+    print("EXPRESION REGULAR: ", exp1)
+    print("ESTADOS: ", estados)
+    print("SIMBOLOS: ", transitions)
+    print("ESTADO INICIAL: ", [0])
+    print("ACEPTACIÓN: ", acceptance)
+    print("TRANSICIONES: ", transiciones)
+    print('\n')
+
 
 #direct_AFD(InfixToPostfix(readExp('(a|b)*(a|(bb))*')))
 #direct_AFD(InfixToPostfix(readExp('(a|b)*abb')))
