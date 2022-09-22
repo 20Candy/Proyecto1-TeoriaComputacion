@@ -3,3 +3,4 @@ alfabeto: ['a', 'b']
 inicio: ['0']
 transiciones: [[0, 'a', 0], [1, 'a', 0], [0, 'b', 1], [1, 'b', 1]]
 final: [0, 1]
+transiciones_structura: {0: {'a': [0], 'b': [1]}, 1: {'a': [0], 'b': [1]}}

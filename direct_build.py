@@ -111,6 +111,19 @@ def direct_AFD(exp1):
         for g in StateTransitions[e]:
             transiciones.append([g, e, StateTransitions[e][g]])
 
+
+    #
+    finalInfo = {}
+    for j in estados:
+        finalInfo[j] = {}
+    
+        for k in transitions:
+            finalInfo[j][k] = []
+
+            for l in transiciones:
+                if(l[0] == j and l[1] == k):
+                    finalInfo[j][k].append(l[2])
+
     print('Estados: ', estados)
     print('Alfabeto: ', transitions)
     print('Estado(s) de aceptación: ', acceptance)
@@ -122,7 +135,8 @@ def direct_AFD(exp1):
         'alfabeto': transitions,
         "inicio": ['0'],
         'transiciones': transiciones,
-        'final': acceptance
+        'final': acceptance,
+        'transiciones_structura':finalInfo
     }
 
     with open('output/Directo.txt', 'w') as outfile:

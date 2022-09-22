@@ -2,6 +2,6 @@
 EXPRESION REGULAR: (a|b)*(a|(bb))*
 ESTADOS: [1]
 SIMBOLOS: [a, b]
-INICIO: [1]
+INICIO: [0]
 ACEPTACION: [1]
 TRANSICIONES: (1, a, 1) - (1, b, 1)
