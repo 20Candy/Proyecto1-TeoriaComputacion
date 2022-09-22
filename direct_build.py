@@ -158,5 +158,5 @@ def direct_AFD(exp1):
 
     return estructura
     
-direct_AFD('(a|b)*(a|(bb))*')
+#direct_AFD('(a|b)*(a|(bb))*')
 #direct_AFD('(a|b)*abb')
