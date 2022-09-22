@@ -9,21 +9,14 @@ from direct_build import direct_AFD
 
 #PRUEBAS
 #verificar esstados de acpetacion
-# r = "(abba)*"   
-# r = "(a|b)*" 
-#r = "(aa*)|(bb*)" 
-#r = "a*b*"
-# r = "(b|b)*abb"
-#r = "(b|b)*abb(a|b)*"
-# r = "a(bb)*"
-# r = "(bb)*a"
 
-# r = "((abba*)|((ab)*ba))"
-# r = "(b|b)*abb(a|b)*"
-r = '(a|b)*abb' #FUNCIONALLLLLLLLLLLLLLL
-w = "abba"  #pertenece
-#w = 'bbbbabb'
-#w = "ab"          #no pertenece
+r = "(a|b)*(a|(bb))*"           #PRUEBA 1
+#w = "abba"                      #pertenece PRUEBA1
+w = 'bbbbabb'                  #pertenece PRUEBA1
+
+#r = "(a|b)*abb"                 #PRUEBA 2
+#w = "aabb"                      #pertenece PRUEBA2
+#w = "abba"                      #no pertenece PRUEBA2
 
 x = True
 sub_afd_transiciones = {}
@@ -84,7 +77,10 @@ while x:
     
     elif menu == "6":              #todo @stefano cuando termine perdomo
         print("\nMinimización AFD (directo)")
-        
+        info = direct_AFD(r)
+        m = Minimizacion(info, r)
+
+
 
     elif menu == "7":
         print("\nSimulación AFN")
@@ -225,7 +221,7 @@ while x:
         print("\nAFD (minimizado subconjuntos): La cadena pertenece") if simulacion else print("\nAFD (minimizado subconjuntos): La cadena no pertenece")
         print("Tiempo de simulación:",end - start)
 
-    elif menu == "11":  #todo @carol cuando termine perdomo y stefano
+    elif menu == "11":
         print("\nSimulación AFD (minimizado directo)")
 
 
