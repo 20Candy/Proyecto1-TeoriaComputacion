@@ -12,7 +12,7 @@ from direct_build import direct_AFD
 
 r = "(a|b)*(a|(bb))*"           #PRUEBA 1
 #w = "abba"                      #pertenece PRUEBA1
-#w = 'bbbbabb'                  #pertenece PRUEBA1
+w = 'bbbbabb'                  #pertenece PRUEBA1
 
 x = True
 sub_afd_transiciones = {}
