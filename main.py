@@ -18,8 +18,9 @@ from direct_build import direct_AFD
 # r = "a(bb)*"
 # r = "(bb)*a"
 
-r = "((abba*)|((ab)*ba))"
-#r = "(b|b)*abb(a|b)*"
+# r = "((abba*)|((ab)*ba))"
+# r = "(b|b)*abb(a|b)*"
+r = '(a|b)*abb' #FUNCIONALLLLLLLLLLLLLLL
 w = "abba"  #pertenece
 #w = 'bbbbabb'
 #w = "ab"          #no pertenece
@@ -66,7 +67,7 @@ while x:
 
     elif menu == "4":               #todo @perdomo
         print("\nAFD directo")
-        direct = direct_AFD(r)
+        direct_AFD(r)
 
     
     elif menu == "5":
@@ -83,8 +84,7 @@ while x:
     
     elif menu == "6":              #todo @stefano cuando termine perdomo
         print("\nMinimización AFD (directo)")
-
-
+        
 
     elif menu == "7":
         print("\nSimulación AFN")
@@ -106,7 +106,6 @@ while x:
     elif menu == "8":
         print("\nSimulación AFD (subconjuntos)")
 
-
         t = Thompson(r)
         alfabeto_exp= t.simbolos
         dic_transiciones = t.finalInfo
@@ -123,8 +122,49 @@ while x:
         print("\nAFD (subconjuntos): La cadena pertenece") if simulacionSub else print("\nAFD (subconjuntos): La cadena no pertenece")
         print("Tiempo de simulación:",end - start)
 
-    elif menu == "9":   #todo @carol cuando termine perdomo
+    elif menu == "9":  
         print("\nSimulación AFD (directo)")
+
+        transiciones, estados =  direct_AFD(r)
+
+        formato_transiciones = {}
+        tempBool = True
+
+        #formato de transiciones para simulacion
+        for id_place, element in transiciones.items():
+            elementa = None
+            elementb = None
+
+            if(id_place == "0"):
+                tempBool = False
+            
+            if(tempBool):
+                id_place = str(int(id_place))
+
+                if element['a'] != []:
+                    elementa = str(int(element['a'][0]))
+
+                if element['b'] != []:
+                    elementb = str(int(element['b'][0]))
+
+            else:
+                if element['a'] != []:
+                    elementa = element['a'][0]
+
+                if element['b'] != []:
+                    elementb = element['b'][0]
+
+            formato_transiciones[str("['"+(id_place)+"']")] = {"Estado del AFD":id_place, 'a':elementa, 'b':elementb}
+
+        #Simulacion AFD directo
+        print("\nRegex: ", r)
+        print("Cadena a verificar: ", w)
+        start = timer()
+        simulacionSub = simulacion_AFD(formato_transiciones, w, estados)
+        end = timer()
+        print("\nAFD (subconjuntos): La cadena pertenece") if simulacionSub else print("\nAFD (subconjuntos): La cadena no pertenece")
+        print("Tiempo de simulación:",end - start)
+        
 
     elif menu == "10": 
         print("\nSimulación AFD (minimizado subconjuntos)")
@@ -187,6 +227,7 @@ while x:
 
     elif menu == "11":  #todo @carol cuando termine perdomo y stefano
         print("\nSimulación AFD (minimizado directo)")
+
 
     elif menu == "12":
         print("\nSalir")
