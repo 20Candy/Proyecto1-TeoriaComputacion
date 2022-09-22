@@ -121,7 +121,9 @@ while x:
     elif menu == "9":  
         print("\nSimulación AFD (directo)")
 
-        transiciones, estados =  direct_AFD(r)
+        estructura =  direct_AFD(r)
+        transiciones = estructura['transiciones_structura']
+        estados = [str(x) for x in  estructura['final'] ]
 
         formato_transiciones = {}
         tempBool = True
