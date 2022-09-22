@@ -1,5 +1,6 @@
 from binaryTree import Node
 from postfix import InfixToPostfix, readExp
+import graphviz
 
 operators = ['*', '|', '.']
 
@@ -108,23 +109,52 @@ def direct_AFD(exp1):
             transiciones.append([g, e, StateTransitions[e][g]])
     print('Estados: ', estados)
     print('Alfabeto: ', transitions)
-    print('Transiciones: ', transiciones)
     print('Estado(s) de aceptación: ', acceptance)
     print('Estado inicial: ', 0)
+    print('Transiciones: ', transiciones)
 
     estructura = {
         'estados': estados,
         'alfabeto': transitions,
-        'inicial': 0,
+        "inicio": ['0'],
         'transiciones': transiciones,
-        'aceptacion': acceptance
+        'final': acceptance
     }
 
     with open('output/Directo.txt', 'w') as outfile:
         for key, value in estructura.items():
             outfile.write(key + ': ' + str(value) + '\n')
 
+    dot_subconjuntos = graphviz.Digraph(comment="AFD_Directo")
+    dot_subconjuntos.attr(rankdir='LR', size='15')
+    tempStr = str("\AFD: Directo ["+exp1+"]")
+    dot_subconjuntos.attr(label=tempStr)
+    dot_subconjuntos.attr(fontsize='20')
+    dot_subconjuntos.attr('node', shape='circle')
+
+    dot_subconjuntos.node("", shape='none',height='0',width='0')
+
+    for i in estados:
+        if(i in acceptance):
+            if(i == 0):
+                dot_subconjuntos.node(str(i),str(i), shape='doublecircle')
+                dot_subconjuntos.edge("", str(i))
+            else:
+                dot_subconjuntos.node(str(i),str(i), shape='doublecircle')
+        elif(i in 0):
+            dot_subconjuntos.node(str(i),str(i))
+            dot_subconjuntos.edge("", str(i))
+        else:
+            dot_subconjuntos.node(str(i),str(i))
+
+    for i in transiciones:
+        dot_subconjuntos.edge(str(i[0]), str(i[2]), str(i[1]))
+    
+    dot_subconjuntos.render(directory='output', filename='AFD_Directo')
+
+
+    return estructura
     #print(acceptance)
 
-#direct_AFD(InfixToPostfix(readExp('(a|b)*(a|(bb))*')))
+direct_AFD(InfixToPostfix(readExp('(a|b)*(a|(bb))*')))
 #direct_AFD(InfixToPostfix(readExp('(a|b)*abb')))

@@ -116,7 +116,12 @@ class Minimizacion:
         self.transiciones2 = list(transicionesTemp for transicionesTemp,_ in itertools.groupby(transicionesTemp))
                 
     def Graph(self):
-        q0 = self.inicio2[0]
+        try:
+            q0 = self.inicio2[0]
+        except:
+            self.inicio2.append("0")
+            q0 = "0"
+
         F = set(self.estados_aceptacion2)
 
         dot_subconjuntos = graphviz.Digraph(comment="Minimizacion")

@@ -18,8 +18,8 @@ from direct_build import direct_AFD
 # r = "a(bb)*"
 # r = "(bb)*a"
 
-r = "((abba*)|((ab)*ba))"
-#r = "(b|b)*abb(a|b)*"
+#r = "((abba*)|((ab)*ba))"
+r = "(b|b)*abb(a|b)*"
 w = "abba"  #pertenece
 #w = 'bbbbabb'
 #w = "ab"          #no pertenece
@@ -66,6 +66,7 @@ while x:
 
     elif menu == "4":               #todo @perdomo
         print("\nAFD directo")
+        direct_AFD(InfixToPostfix(readExp(r)))
     
     elif menu == "5":
         print("\nMinimización AFD (subconjuntos)")
@@ -81,6 +82,8 @@ while x:
     
     elif menu == "6":              #todo @stefano cuando termine perdomo
         print("\nMinimización AFD (directo)")
+        info = direct_AFD(InfixToPostfix(readExp(r)))
+        m = Minimizacion(info, r)
 
     elif menu == "7":
         print("\nSimulación AFN")
