@@ -1,7 +1,7 @@
 // AFD_Directo
 digraph {
 	rankdir=LR size=15
-	label="\AFD: Directo [ab|*abb.|*.#.]"
+	label="\AFD: Directo [(a|b)*(a|(bb))*]"
 	fontsize=20
 	node [shape=circle]
 	"" [height=0 shape=none width=0]

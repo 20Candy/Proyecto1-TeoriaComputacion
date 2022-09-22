@@ -158,6 +158,5 @@ def direct_AFD(exp1):
 
     return estructura
     
-#print(acceptance)
-#direct_AFD(InfixToPostfix(readExp('(a|b)*(a|(bb))*')))
-#direct_AFD(InfixToPostfix(readExp('(a|b)*abb')))
+direct_AFD('(a|b)*(a|(bb))*')
+#direct_AFD('(a|b)*abb')
