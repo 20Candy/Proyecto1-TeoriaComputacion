@@ -160,7 +160,7 @@ while x:
         start = timer()
         simulacionSub = simulacion_AFD(formato_transiciones, w, estados)
         end = timer()
-        print("\nAFD (subconjuntos): La cadena pertenece") if simulacionSub else print("\nAFD (subconjuntos): La cadena no pertenece")
+        print("\nAFD (directo): La cadena pertenece") if simulacionSub else print("\nAFD (directo): La cadena no pertenece")
         print("Tiempo de simulación:",end - start)
         
 
