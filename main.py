@@ -5,6 +5,7 @@ from minimizacion import Minimizacion
 from postfix import InfixToPostfix, readExp
 import copy
 from timeit import default_timer as timer
+from direct_build import direct_AFD
 
 #PRUEBAS
 #verificar esstados de acpetacion
