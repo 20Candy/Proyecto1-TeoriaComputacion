@@ -119,15 +119,19 @@ def direct_AFD(exp1):
             if tree2.searchPos(g).val == '#':
                 acceptance.append(e)
     estados = []
+    estadosTemp = []
     for e in dstates:
         estados.append(e)
     transiciones = []
     for e in StateTransitions:
         for g in StateTransitions[e]:
+            if(StateTransitions[e][g] in estados):
+                estadosTemp.append(StateTransitions[e][g])
             transiciones.append([g, e, StateTransitions[e][g]])
 
+    estadosTemp = list(set(estadosTemp))
+    estados = estadosTemp
 
-    #
     finalInfo = {}
     for j in estados:
         finalInfo[j] = {}
