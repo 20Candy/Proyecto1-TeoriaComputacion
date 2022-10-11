@@ -1,7 +1,7 @@
 
-EXPRESION REGULAR: (a|b)*(a|(bb))*
-ESTADOS: [1]
+EXPRESION REGULAR: (a|b)*abb
+ESTADOS: [0, 1, 2, 3]
 SIMBOLOS: [a, b]
 INICIO: [0]
-ACEPTACION: [1]
-TRANSICIONES: (1, a, 1) - (1, b, 1)
+ACEPTACION: [3]
+TRANSICIONES: (0, a, 1) - (0, b, 0) - (1, a, 1) - (1, b, 2) - (2, a, 1) - (2, b, 3) - (3, a, 1) - (3, b, 0)

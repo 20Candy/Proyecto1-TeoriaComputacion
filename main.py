@@ -10,9 +10,12 @@ from direct_build import direct_AFD
 #PRUEBAS
 #verificar esstados de acpetacion
 
-r = "(a|b)*(a|(bb))*"           #PRUEBA 1
+r = "(b|b)*abb(a|b)*"
+w = "babbaaaaa"
+
+#r = "(a|b)*(a|(bb))*"           #PRUEBA 1
 #w = "abba"                      #pertenece PRUEBA1
-w = 'bbbbabb'                  #pertenece PRUEBA1
+#w = 'bbbbabb'                  #pertenece PRUEBA1
 
 #r = "(a|b)*abb"                 #PRUEBA 2
 #w = "aabb"                      #pertenece PRUEBA2
