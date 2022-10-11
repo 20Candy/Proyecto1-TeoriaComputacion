@@ -52,19 +52,34 @@ def direct_AFD(exp1):
         j += 1
     #print(follow_pos)
 
+    unique = [list(x) for x in set(tuple(x) for x in follow_i)]
+    
+    #order unique
+    unique.sort()
+
+    for element in unique:
+        if element == []:
+            unique.remove(element)
+
     d = 0
+    dstates = {}
+    dstates2 = []
+
+    for m in range (len(unique)):
+        dstates[m] = unique[m]
+        dstates2.append(unique[m])
+
+    """d = 0
     dstates = {}
     dstates[d] = tree2.first_pos
     dstates2 = []
-    dstates2.append(tree2.first_pos)
+    dstates2.append(tree2.first_pos)"""
 
     transitions = []
     for e in i:
         temp = tree2.searchPos(e).val
         if temp not in transitions and temp != '#':
             transitions.append(temp)
-
-    #print(transitions)
 
     StateTransitions = {}
     for e in transitions:
